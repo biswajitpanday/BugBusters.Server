@@ -15,8 +15,4 @@
     <Folder Include="Settings\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DotNetCore.Domain" Version="17.50.0" />
-  </ItemGroup>
-
 </Project>
