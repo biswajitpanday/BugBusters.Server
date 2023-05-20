@@ -8,12 +8,15 @@
 
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="Dtos\" />
     <Folder Include="Converters\" />
     <Folder Include="Constants\" />
     <Folder Include="MapperHelper\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Settings\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetCore.Domain" Version="17.50.0" />
   </ItemGroup>
 
 </Project>
