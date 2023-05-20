@@ -477,5 +477,4 @@ $RECYCLE.BIN/
 *.lnk
 
 #Project Specific Files
-*.development.json
 /OptiOverflow.Api/appsettings.Development.json
