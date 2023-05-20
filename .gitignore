@@ -475,3 +475,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+#Project Specific Files
+*.development.json
+/OptiOverflow.Api/appsettings.Development.json
