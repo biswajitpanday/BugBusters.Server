@@ -41,7 +41,7 @@
       "WithThreadId"
     ],
     "Properties": {
-      "ApplicationName": "CleanArchitecture.Net6"
+      "ApplicationName": "OptiOverflow"
     }
   }
 }
