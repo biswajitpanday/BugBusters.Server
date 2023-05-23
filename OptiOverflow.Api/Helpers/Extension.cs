@@ -1,4 +1,6 @@
-﻿using Serilog;
+﻿using Microsoft.EntityFrameworkCore;
+using OptiOverflow.Repository.DatabaseContext;
+using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
 
@@ -32,5 +34,19 @@ public static class Extension
         {
             Console.WriteLine($"Error setting up Serilog: {ex}");
         }
+    }
+
+    public static void AddAppCorsPolicy(this IServiceCollection services)
+    {
+        services.AddCors(option =>
+            option.AddPolicy("AppPolicy", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
+    }
+
+    public static void AddAppDbContext(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+        });
     }
 }
