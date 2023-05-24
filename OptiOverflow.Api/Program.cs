@@ -16,14 +16,8 @@ builder.Services.AddControllers(options => options.ModelBinderProviders.Insert(0
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddResponseCompression();
 
-builder.ConfigureSerilog();
-builder.ConfigureAppSwagger();
-builder.ConfigureAppCorsPolicy();
-builder.ConfigureAppDbContext();
-builder.ConfigureAppIdentity();
-builder.ConfigureAppAuthentication();
-builder.ConfigureAppAutoMapper();
-
+builder.ConfigureAppComponents();
+builder.ConfigureDI();
 builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
 
 
