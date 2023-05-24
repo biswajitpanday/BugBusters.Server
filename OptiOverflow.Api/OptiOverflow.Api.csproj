@@ -22,8 +22,4 @@
     <ProjectReference Include="..\OptiOverflow.Service\OptiOverflow.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Middlewares\" />
-  </ItemGroup>
-
 </Project>
