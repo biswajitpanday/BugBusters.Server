@@ -5,7 +5,8 @@ using OptiOverflow.Core.Entities;
 
 namespace OptiOverflow.Repository.DatabaseContext;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid,
+    IdentityUserClaim<Guid>, IdentityUserRole<Guid>, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -42,6 +43,16 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     }
 
     #endregion
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<UserProfile>()
+            .HasOne(up => up.User)
+            .WithOne(au => au.Profile)
+            .HasForeignKey<ApplicationUser>(au => au.Id);
+
+        base.OnModelCreating(builder);
+    }
 
     public DbSet<UserProfile>? UserProfile { get; set; }
 

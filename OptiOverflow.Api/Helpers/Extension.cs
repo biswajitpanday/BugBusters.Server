@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
 using OptiOverflow.Repository.Base;
 using OptiOverflow.Repository.DatabaseContext;
@@ -92,7 +93,7 @@ public static class Extension
 
     public static void ConfigureAppIdentity(this WebApplicationBuilder builder)
     {
-        builder.Services.AddIdentityCore<IdentityUser>(options =>
+        builder.Services.AddIdentityCore<ApplicationUser>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
@@ -100,10 +101,10 @@ public static class Extension
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 6;
             })
-            .AddRoles<IdentityRole>()
-            .AddRoleManager<RoleManager<IdentityRole>>()
-            .AddSignInManager<SignInManager<IdentityUser>>()
-            .AddRoleValidator<RoleValidator<IdentityRole>>()
+            .AddRoles<IdentityRole<Guid>>()
+            .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
+            .AddSignInManager<SignInManager<ApplicationUser>>()
+            .AddRoleValidator<RoleValidator<IdentityRole<Guid>>>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
     }
