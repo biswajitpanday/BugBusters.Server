@@ -9,6 +9,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Entities;
+using OptiOverflow.Core.Interfaces.Repositories;
+using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Api.Controllers;
 
@@ -18,16 +20,22 @@ namespace OptiOverflow.Api.Controllers;
 [AllowAnonymous]
 public class AuthController: ControllerBase
 {
+    private readonly ILogger<WeatherForecastController> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+    private readonly IUserProfileService _userProfileService;
     private readonly IConfiguration _configuration;
 
-    public AuthController(UserManager<ApplicationUser> userManager,
+    public AuthController(ILogger<WeatherForecastController> logger, 
+        UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole<Guid>> roleManager,
+        IUserProfileService userProfileService,
         IConfiguration configuration)
     {
+        _logger = logger;
         _userManager = userManager;
         _roleManager = roleManager;
+        _userProfileService = userProfileService;
         _configuration = configuration;
     }
 
@@ -78,6 +86,7 @@ public class AuthController: ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new ApiResponseDto<object>
                 { IsSuccess = false, Message = "User creation failed! Please try again later" });
+        await _userProfileService.Create(model);
         return Ok(new ApiResponseDto<object> { IsSuccess = true, Message = "User created successfully" });
     }
 

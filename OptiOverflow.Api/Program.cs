@@ -1,6 +1,6 @@
-using OptiOverflow.Api.Helpers;
 using Serilog;
 using System.Text.Json.Serialization;
+using OptiOverflow.Api.Helpers;
 using OptiOverflow.Api.Middleware;
 using OptiOverflow.Core.Converters;
 using OptiOverflow.Core.Settings;

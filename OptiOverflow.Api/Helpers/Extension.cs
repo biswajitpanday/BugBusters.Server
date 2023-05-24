@@ -6,8 +6,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
+using OptiOverflow.Core.Interfaces.Services;
 using OptiOverflow.Repository.Base;
 using OptiOverflow.Repository.DatabaseContext;
+using OptiOverflow.Service;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
@@ -16,7 +18,27 @@ namespace OptiOverflow.Api.Helpers;
 
 public static class Extension
 {
-    public static void ConfigureSerilog(this WebApplicationBuilder builder)
+    public static void ConfigureAppComponents(this WebApplicationBuilder builder)
+    {
+        builder.ConfigureSerilog();
+        builder.ConfigureAppSwagger();
+        builder.ConfigureAppCorsPolicy();
+        builder.ConfigureAppDbContext();
+        builder.ConfigureAppIdentity();
+        builder.ConfigureAppAuthentication();
+        builder.ConfigureAppAutoMapper();
+    }
+
+    public static void ConfigureDI(this WebApplicationBuilder builder)
+    {
+        builder.ConfigureAppServices();
+        builder.ConfigureAppRepositories();
+    }
+
+
+    #region App Components
+
+    private static void ConfigureSerilog(this WebApplicationBuilder builder)
     {
         try
         {
@@ -44,7 +66,7 @@ public static class Extension
         }
     }
 
-    public static void ConfigureAppSwagger(this WebApplicationBuilder builder)
+    private static void ConfigureAppSwagger(this WebApplicationBuilder builder)
     {
         builder.Services.AddSwaggerGen(option =>
         {
@@ -77,13 +99,13 @@ public static class Extension
         });
     }
 
-    public static void ConfigureAppCorsPolicy(this WebApplicationBuilder builder)
+    private static void ConfigureAppCorsPolicy(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(option =>
             option.AddPolicy("AppPolicy", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
     }
 
-    public static void ConfigureAppDbContext(this WebApplicationBuilder builder)
+    private static void ConfigureAppDbContext(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
@@ -91,16 +113,16 @@ public static class Extension
         });
     }
 
-    public static void ConfigureAppIdentity(this WebApplicationBuilder builder)
+    private static void ConfigureAppIdentity(this WebApplicationBuilder builder)
     {
         builder.Services.AddIdentityCore<ApplicationUser>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-            })
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredLength = 6;
+        })
             .AddRoles<IdentityRole<Guid>>()
             .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
             .AddSignInManager<SignInManager<ApplicationUser>>()
@@ -109,7 +131,7 @@ public static class Extension
             .AddDefaultTokenProviders();
     }
 
-    public static void ConfigureAppAuthentication(this WebApplicationBuilder builder)
+    private static void ConfigureAppAuthentication(this WebApplicationBuilder builder)
     {
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -127,7 +149,7 @@ public static class Extension
             });
     }
 
-    public static void ConfigureAppAutoMapper(this WebApplicationBuilder builder)
+    private static void ConfigureAppAutoMapper(this WebApplicationBuilder builder)
     {
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain
             .GetAssemblies()
@@ -135,15 +157,23 @@ public static class Extension
     }
 
 
-    public static void ConfigureAppServices(this WebApplicationBuilder builder)
+    #endregion
+
+
+    #region App DI
+
+    private static void ConfigureAppServices(this WebApplicationBuilder builder)
     {
-        //services.AddTransient<IWeatherForecastService, WeatherForecastService>();
+        builder.Services.AddTransient<IUserProfileService, UserProfileService>();
     }
 
-    public static void ConfigureAppRepositories(this WebApplicationBuilder builder)
+    private static void ConfigureAppRepositories(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-        
-        //services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
+
+        builder.Services.AddScoped<IUserProfileRepository, IUserProfileRepository>();
     }
+
+    #endregion
+
 }
