@@ -46,10 +46,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<UserProfile>()
-            .HasOne(up => up.User)
-            .WithOne(au => au.Profile)
-            .HasForeignKey<ApplicationUser>(au => au.Id);
+        builder.Entity<ApplicationUser>()
+            .HasOne(au => au.Profile)
+            .WithOne(up => up.User)
+            .HasForeignKey<UserProfile>(up => up.Id);
 
         base.OnModelCreating(builder);
     }
