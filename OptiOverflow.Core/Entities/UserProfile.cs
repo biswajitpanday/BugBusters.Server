@@ -8,5 +8,5 @@ public class UserProfile : BaseEntity
     public DateTime? DateOfBirth { get; set; }
     public string? Phone { get; set; }
     public string? Address { get; set; }
-    public virtual ApplicationUser? User { get; set; }
+    public Guid AccountId { get; set; }
 }

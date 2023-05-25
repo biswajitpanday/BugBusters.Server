@@ -4,5 +4,7 @@ namespace OptiOverflow.Core.Entities;
 
 public class ApplicationUser: IdentityUser<Guid>
 {
-    public virtual UserProfile Profile { get; set; } = null!;
+    public DateTime CreatedAt { get; set; }
+    public DateTime LastUpdate { get; set; }
+    public bool IsDeleted { get; set; }
 }

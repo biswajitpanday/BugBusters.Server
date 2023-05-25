@@ -20,13 +20,13 @@ namespace OptiOverflow.Api.Controllers;
 [AllowAnonymous]
 public class AuthController: ControllerBase
 {
-    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILogger<AuthController> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
     private readonly IUserProfileService _userProfileService;
     private readonly IConfiguration _configuration;
 
-    public AuthController(ILogger<WeatherForecastController> logger, 
+    public AuthController(ILogger<AuthController> logger, 
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole<Guid>> roleManager,
         IUserProfileService userProfileService,
@@ -86,7 +86,7 @@ public class AuthController: ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new ApiResponseDto<object>
                 { IsSuccess = false, Message = "User creation failed! Please try again later" });
-        await _userProfileService.Create(model);
+        await _userProfileService.Create(model, user);
         return Ok(new ApiResponseDto<object> { IsSuccess = true, Message = "User created successfully" });
     }
 
@@ -97,7 +97,7 @@ public class AuthController: ControllerBase
         var existingUser = await _userManager.FindByNameAsync(model.UserName);
         if (existingUser != null)
             return StatusCode(StatusCodes.Status500InternalServerError,
-                new ApiResponseDto<object> { IsSuccess = false, Message = "User already exists" });
+                new ApiResponseDto<object> { IsSuccess = false, Message = "Admin already exists" });
         ApplicationUser user = new()
         {
             Email = model.Email,
@@ -108,7 +108,7 @@ public class AuthController: ControllerBase
         if (!result.Succeeded)
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new ApiResponseDto<object>
-                { IsSuccess = false, Message = "User creation failed! Please try again later" });
+                { IsSuccess = false, Message = "Admin creation failed! Please try again later" });
 
         var userRoles = typeof(UserRoles).GetFields(BindingFlags.Static | BindingFlags.Public)
             .Where(x => x.IsLiteral && !x.IsInitOnly)
@@ -122,7 +122,7 @@ public class AuthController: ControllerBase
             if (await _roleManager.RoleExistsAsync(userRole))
                 await _userManager.AddToRoleAsync(user, userRole);
 
-        return Ok(new ApiResponseDto<object> { IsSuccess = true, Message = "User created successfully" });
+        return Ok(new ApiResponseDto<object> { IsSuccess = true, Message = "Admin created successfully" });
     }
 
     #region Private Methods

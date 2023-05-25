@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using OptiOverflow.Core.Entities;
+using OptiOverflow.Core.Interfaces.Common;
 
 namespace OptiOverflow.Core.Dtos;
 
-public class RegistrationDto
+public class RegistrationDto: IMapFrom<UserProfile>
 {
     [Required(ErrorMessage = "UserName is required")]
     public string UserName { get; set; } = null!;

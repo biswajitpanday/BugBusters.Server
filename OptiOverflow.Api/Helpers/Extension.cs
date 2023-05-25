@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
 using OptiOverflow.Core.Interfaces.Services;
+using OptiOverflow.Repository;
 using OptiOverflow.Repository.Base;
 using OptiOverflow.Repository.DatabaseContext;
 using OptiOverflow.Service;
@@ -171,7 +172,7 @@ public static class Extension
     {
         builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-        builder.Services.AddScoped<IUserProfileRepository, IUserProfileRepository>();
+        builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
     }
 
     #endregion

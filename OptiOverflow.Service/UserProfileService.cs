@@ -17,9 +17,10 @@ public class UserProfileService : IUserProfileService
         _userProfileRepository = userProfileRepository;
     }
     
-    public async Task Create(RegistrationDto model)
+    public async Task Create(RegistrationDto model, ApplicationUser user)
     {
         var userProfile = _mapper.Map<UserProfile>(model);
+        userProfile.AccountId = user.Id;
         await _userProfileRepository.AddAsync(userProfile);
         await _userProfileRepository.SaveChangesAsync();
     }

@@ -44,16 +44,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     #endregion
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        builder.Entity<ApplicationUser>()
-            .HasOne(au => au.Profile)
-            .WithOne(up => up.User)
-            .HasForeignKey<UserProfile>(up => up.Id);
-
-        base.OnModelCreating(builder);
-    }
-
     public DbSet<UserProfile>? UserProfile { get; set; }
 
 }
