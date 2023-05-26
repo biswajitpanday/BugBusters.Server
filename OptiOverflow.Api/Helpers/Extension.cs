@@ -166,6 +166,9 @@ public static class Extension
     private static void ConfigureAppServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IUserProfileService, UserProfileService>();
+        builder.Services.AddTransient<IQuestionService, QuestionService>();
+        builder.Services.AddTransient<IAnswerService, AnswerService>();
+        builder.Services.AddTransient<IVoteService, VoteService>();
     }
 
     private static void ConfigureAppRepositories(this WebApplicationBuilder builder)
@@ -173,6 +176,7 @@ public static class Extension
         builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
         builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+        // todo: Add Repositories.
     }
 
     #endregion
