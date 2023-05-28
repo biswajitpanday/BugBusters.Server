@@ -17,7 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddResponseCompression();
 
 builder.ConfigureAppComponents();
-builder.ConfigureDI();
+builder.ConfigureDi();
 builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
 
 

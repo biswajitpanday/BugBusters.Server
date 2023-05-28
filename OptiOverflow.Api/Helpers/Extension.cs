@@ -30,7 +30,7 @@ public static class Extension
         builder.ConfigureAppAutoMapper();
     }
 
-    public static void ConfigureDI(this WebApplicationBuilder builder)
+    public static void ConfigureDi(this WebApplicationBuilder builder)
     {
         builder.ConfigureAppServices();
         builder.ConfigureAppRepositories();
