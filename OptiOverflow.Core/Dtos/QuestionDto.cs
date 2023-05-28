@@ -1,9 +1,8 @@
-﻿namespace OptiOverflow.Core.Entities;
+﻿namespace OptiOverflow.Core.Dtos;
 
-public class Question: BaseEntity
+public class QuestionDto
 {
     public string Title { get; set; } = null!;
     public string Body { get; set; } = null!;
     public Guid CreatedById { get; set; }
-    public Guid LastUpdatedById { get; set; }
 }
