@@ -176,7 +176,10 @@ public static class Extension
         builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
         builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
-        // todo: Add Repositories.
+        builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+        builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
+        builder.Services.AddScoped<IVoteRepository, VoteRepository>();
+        
     }
 
     #endregion
