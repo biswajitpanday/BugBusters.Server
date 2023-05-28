@@ -45,5 +45,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     #endregion
 
     public DbSet<UserProfile>? UserProfile { get; set; }
+    public DbSet<Question>? Question { get; set; }
+    public DbSet<Answer>? Answer { get; set; }
+    public DbSet<Vote>? Vote { get; set; }
 
 }

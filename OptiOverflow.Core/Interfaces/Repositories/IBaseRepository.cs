@@ -1,15 +1,17 @@
-﻿using OptiOverflow.Core.Entities;
+﻿using System.Linq.Expressions;
 using DotNetCore.Repositories;
-using System.Linq.Expressions;
+using OptiOverflow.Core.Entities;
 
 namespace OptiOverflow.Core.Interfaces.Repositories;
 
-public interface IBaseRepository<T> : IRepository<T> where T : BaseEntity
+public interface IBaseRepository<T>: IRepository<T> where T : BaseEntity
 {
-    new void Add(T item);
-    new Task AddAsync(T item);
-    new void AddRange(IEnumerable<T> items);
-    new Task AddRangeAsync(IEnumerable<T> items);
+    #region Commands
+
+    //new void Add(T item);
+    //new Task AddAsync(T item);
+    //new void AddRange(IEnumerable<T> items);
+    //new Task AddRangeAsync(IEnumerable<T> items);
     void HardDelete(object key);
     void SoftDelete(object key);
     void HardDelete(Expression<Func<T, bool>> where);
@@ -22,20 +24,30 @@ public interface IBaseRepository<T> : IRepository<T> where T : BaseEntity
     new Task UpdateAsync(T item);
     new void UpdatePartial(object item);
     new Task UpdatePartialAsync(object item);
-    new void UpdateRange(IEnumerable<T> items);
-    new Task UpdateRangeAsync(IEnumerable<T> items);
-    new bool Any();
-    new bool Any(Expression<Func<T, bool>> where);
-    new Task<bool> AnyAsync();
-    new Task<bool> AnyAsync(Expression<Func<T, bool>> where);
-    new long Count();
-    new long Count(Expression<Func<T, bool>> where);
-    new Task<long> CountAsync();
-    new Task<long> CountAsync(Expression<Func<T, bool>> where);
+    //new void UpdateRange(IEnumerable<T> items);
+    //new Task UpdateRangeAsync(IEnumerable<T> items);
+
+    #endregion
+    
+
+
+    #region Queries
+
+    //new bool Any();
+    //new bool Any(Expression<Func<T, bool>> where);
+    //new Task<bool> AnyAsync();
+    //new Task<bool> AnyAsync(Expression<Func<T, bool>> where);
+    //new long Count();
+    //new long Count(Expression<Func<T, bool>> where);
+    //new Task<long> CountAsync();
+    //new Task<long> CountAsync(Expression<Func<T, bool>> where);
     T? Get(Guid key);
     Task<T?> GetAsync(Guid key);
-    new IEnumerable<T> List();
-    new Task<IEnumerable<T>> ListAsync();
+    //new IEnumerable<T> List();
+    //new Task<IEnumerable<T>> ListAsync();
+
+    #endregion
+
     Task SaveChangesAsync();
     void Save();
 }

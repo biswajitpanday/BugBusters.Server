@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore;
-using OptiOverflow.Repository.DatabaseContext;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using DotNetCore.EntityFrameworkCore;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using OptiOverflow.Repository.DatabaseContext;
 
 namespace OptiOverflow.Repository.Base;
 
@@ -13,7 +13,7 @@ public class BaseRepository<T> : EFRepository<T>, IBaseRepository<T> where T : B
     private readonly ApplicationDbContext _context;
     private readonly DbSet<T> _dbSet;
     private readonly IQueryable<T?> _queryable;
-
+    
     public BaseRepository(ApplicationDbContext context) : base(context)
     {
         _context = context;
@@ -21,14 +21,15 @@ public class BaseRepository<T> : EFRepository<T>, IBaseRepository<T> where T : B
         _queryable = _context.QuerySet<T?>().Where(x => !x!.IsDeleted);
     }
 
-    // Commands
-    public new void Add(T item) => _dbSet.Add(item);
+    #region Commands
 
-    public new async Task AddAsync(T item) => await _dbSet.AddAsync(item);
+    //public new void Add(T item) => _dbSet.Add(item);
 
-    public new void AddRange(IEnumerable<T> items) => _dbSet.AddRange(items);
+    //public new async Task AddAsync(T item) => await _dbSet.AddAsync(item);
 
-    public new async Task AddRangeAsync(IEnumerable<T> items) => await _dbSet.AddRangeAsync(items);
+    //public new void AddRange(IEnumerable<T> items) => _dbSet.AddRange(items);
+
+    //public new async Task AddRangeAsync(IEnumerable<T> items) => await _dbSet.AddRangeAsync(items);
 
     public void HardDelete(object key)
     {
@@ -106,35 +107,42 @@ public class BaseRepository<T> : EFRepository<T>, IBaseRepository<T> where T : B
 
     public new Task UpdatePartialAsync(object item) => Task.Run((Action)(() => UpdatePartial(item)));
 
-    public new void UpdateRange(IEnumerable<T> items) => _dbSet.UpdateRange(items);
+    //public new void UpdateRange(IEnumerable<T> items) => _dbSet.UpdateRange(items);
 
-    public new Task UpdateRangeAsync(IEnumerable<T> items) => Task.Run((Action)(() => UpdateRange(items)));
+    //public new Task UpdateRangeAsync(IEnumerable<T> items) => Task.Run((Action)(() => UpdateRange(items)));
 
 
-    // Queries
-    public new bool Any() => _queryable!.Any<T>();
+    #endregion
 
-    public new bool Any(Expression<Func<T, bool>> where) => _queryable!.Any<T>(@where);
 
-    public new async Task<bool> AnyAsync() => await _queryable!.AnyAsync<T>();
+    #region Queries
 
-    public new async Task<bool> AnyAsync(Expression<Func<T, bool>> where) => await _queryable!.AnyAsync<T>(@where);
+    //public new bool Any() => _queryable!.Any<T>();
 
-    public new long Count() => _queryable!.LongCount<T>();
+    //public new bool Any(Expression<Func<T, bool>> where) => _queryable!.Any<T>(@where);
 
-    public new long Count(Expression<Func<T, bool>> where) => _queryable!.LongCount<T>(@where);
+    //public new async Task<bool> AnyAsync() => await _queryable!.AnyAsync<T>();
 
-    public new async Task<long> CountAsync() => await _queryable!.LongCountAsync<T>();
+    //public new async Task<bool> AnyAsync(Expression<Func<T, bool>> where) => await _queryable!.AnyAsync<T>(@where);
 
-    public new async Task<long> CountAsync(Expression<Func<T, bool>> where) => await _queryable!.LongCountAsync<T>(@where);
+    //public new long Count() => _queryable!.LongCount<T>();
+
+    //public new long Count(Expression<Func<T, bool>> where) => _queryable!.LongCount<T>(@where);
+
+    //public new async Task<long> CountAsync() => await _queryable!.LongCountAsync<T>();
+
+    //public new async Task<long> CountAsync(Expression<Func<T, bool>> where) => await _queryable!.LongCountAsync<T>(@where);
 
     public T? Get(Guid key) => _context.DetectChangesLazyLoading(false).Set<T>().Find(key);
 
     public async Task<T?> GetAsync(Guid key) => await _queryable.Where(x => x!.Id == key).SingleOrDefaultAsync();
 
-    public new IEnumerable<T> List() => _queryable!.ToList<T>();
+    //public new IEnumerable<T> List() => _queryable!.ToList<T>();
 
-    public new async Task<IEnumerable<T>> ListAsync() => await _queryable!.ToListAsync<T>().ConfigureAwait(false);
+    //public new async Task<IEnumerable<T>> ListAsync() => await _queryable!.ToListAsync<T>().ConfigureAwait(false);
+
+
+    #endregion
 
     public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     public void Save() => _context.SaveChanges();

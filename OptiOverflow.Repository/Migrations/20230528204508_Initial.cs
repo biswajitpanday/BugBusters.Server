@@ -6,11 +6,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OptiOverflow.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class AddApplicationUserAndUserProfile : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Answer",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsAccepted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answer", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -54,6 +72,24 @@ namespace OptiOverflow.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Question",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LastUpdatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Question", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserProfile",
                 columns: table => new
                 {
@@ -72,6 +108,23 @@ namespace OptiOverflow.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserProfile", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vote",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VoteType = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AnswerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vote", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,6 +277,9 @@ namespace OptiOverflow.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Answer");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -239,7 +295,13 @@ namespace OptiOverflow.Repository.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Question");
+
+            migrationBuilder.DropTable(
                 name: "UserProfile");
+
+            migrationBuilder.DropTable(
+                name: "Vote");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -35,39 +35,32 @@ public class QuestionService: IQuestionService
         return questionDto;
     }
 
-    public async Task<QuestionDto> Create(QuestionCreateDto question, string userId)
+    public async Task<QuestionDto> Create(QuestionCreateDto questionCreateDto, string userId)
     {
-        var questionEntity = _mapper.Map<Question>(question);
+        var questionEntity = _mapper.Map<Question>(questionCreateDto);
         questionEntity.CreatedById = new Guid(userId);
         questionEntity.LastUpdatedById = new Guid(userId);
         await _questionRepository.AddAsync(questionEntity);
         //var vote = new Vote{QuestionId = questionEntity.Id, VoteType = }  // Todo: Handle Vote Create.
 
         await _questionRepository.SaveChangesAsync();
-        return _mapper.Map<QuestionDto>(question);
+        return _mapper.Map<QuestionDto>(questionEntity);
     }
 
-    public async Task<QuestionDto?> Update(QuestionUpdateDto question, Guid id, string? userId)
+    public async Task<QuestionDto?> Update(QuestionUpdateDto questionUpdateDto, Guid id, string? userId)
     {
-        var existingQuestion = await _questionRepository.GetAsync(id);
-        if (existingQuestion == null) 
-            return null;
-
-        existingQuestion.Title = question.Title;
-        existingQuestion.Body = question.Body;
-        existingQuestion.LastUpdatedById = new Guid(userId);
-        await _questionRepository.UpdateAsync(existingQuestion);
+        var questionEntity = _mapper.Map<Question>(questionUpdateDto);
+        questionEntity.Id = id;
+        questionEntity.LastUpdatedById = new Guid(userId);
+        
+        await _questionRepository.UpdateAsync(questionEntity);
         await _questionRepository.SaveChangesAsync();
-        return _mapper.Map<QuestionDto>(existingQuestion);
+        return _mapper.Map<QuestionDto>(questionEntity);
     }
 
-    public async Task<QuestionDto?> Delete(Guid id)
+    public async Task Delete(Guid id)
     {
-        var existingQuestion = await _questionRepository.GetAsync(id);
-        if (existingQuestion == null)
-            return null;
-        await _questionRepository.DeleteAsync(existingQuestion);
+        await _questionRepository.SoftDeleteAsync(id);
         await _questionRepository.SaveChangesAsync();
-        return _mapper.Map<QuestionDto>(existingQuestion);
     }
 }

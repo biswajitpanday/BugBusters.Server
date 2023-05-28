@@ -8,5 +8,5 @@ public interface IQuestionService
     Task<QuestionDto?> GetById(Guid id);
     Task<QuestionDto> Create(QuestionCreateDto question, string userId);
     Task<QuestionDto?> Update(QuestionUpdateDto question, Guid id, string? userId);
-    Task<QuestionDto?> Delete(Guid id);
+    Task Delete(Guid id);
 }

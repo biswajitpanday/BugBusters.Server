@@ -1,5 +1,4 @@
-﻿using DotNetCore.EntityFrameworkCore;
-using OptiOverflow.Core.Entities;
+﻿using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
 using OptiOverflow.Repository.Base;
 using OptiOverflow.Repository.DatabaseContext;

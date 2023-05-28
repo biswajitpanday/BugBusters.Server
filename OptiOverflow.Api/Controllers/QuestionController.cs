@@ -31,7 +31,7 @@ public class QuestionController: ControllerBase
         return Ok(questions);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     public IActionResult Get(Guid id)
     {
         var question = _questionService.GetById(id);
@@ -43,9 +43,9 @@ public class QuestionController: ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(QuestionCreateDto question)
     {
-        var userId = User.FindFirstValue(ClaimTypes.Email);
-        await _questionService.Create(question, userId);
-        return CreatedAtAction(nameof(Create), new { id = question.Id }, question);
+        var userId = User.FindFirstValue(ClaimTypes.Name);
+        var result = await _questionService.Create(question, userId);
+        return CreatedAtAction(nameof(Create), new { id = result.Id }, question);
     }
 
     [HttpPut("{id}")]
@@ -58,12 +58,10 @@ public class QuestionController: ControllerBase
         return Ok(question);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var response = await _questionService.Delete(id);
-        if (response == null)
-            return NotFound();
+        await _questionService.Delete(id);
         return NoContent();
     }
 

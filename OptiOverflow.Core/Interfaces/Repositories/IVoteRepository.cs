@@ -1,4 +1,5 @@
-﻿using OptiOverflow.Core.Entities;
+﻿using DotNetCore.Repositories;
+using OptiOverflow.Core.Entities;
 
 namespace OptiOverflow.Core.Interfaces.Repositories;
 

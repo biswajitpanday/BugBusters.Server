@@ -1,8 +1,10 @@
-﻿namespace OptiOverflow.Core.Dtos;
+﻿using OptiOverflow.Core.Entities;
+using OptiOverflow.Core.Interfaces.Common;
 
-public class QuestionCreateDto
+namespace OptiOverflow.Core.Dtos;
+
+public class QuestionCreateDto : IMapFrom<Question>
 {
-    public Guid? Id { get; set; }
     public string Title { get; set; } = null!;
     public string Body { get; set; } = null!;
 }
