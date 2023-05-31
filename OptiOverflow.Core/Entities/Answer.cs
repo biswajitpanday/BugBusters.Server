@@ -9,4 +9,5 @@ public class Answer: BaseEntity
     public Guid QuestionId { get; set; }
 
     public Question Question { get; set; } = null!;
+    public ICollection<Vote>? Votes { get; set; }
 }
