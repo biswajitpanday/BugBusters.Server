@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
@@ -23,5 +24,11 @@ public class UserProfileService : IUserProfileService
         userProfile.AccountId = user.Id;
         await _userProfileRepository.AddAsync(userProfile);
         await _userProfileRepository.SaveChangesAsync();
+    }
+
+    public async Task<UserProfile?> Get(ApplicationUser user)
+    {
+        var profile = await _userProfileRepository.Queryable.SingleOrDefaultAsync(x => x.AccountId == user.Id);
+        return profile;
     }
 }

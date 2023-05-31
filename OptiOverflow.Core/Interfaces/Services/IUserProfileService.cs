@@ -6,4 +6,5 @@ namespace OptiOverflow.Core.Interfaces.Services;
 public interface IUserProfileService
 {
     Task Create(RegistrationDto model, ApplicationUser applicationUser);
+    Task<UserProfile?> Get(ApplicationUser user);
 }

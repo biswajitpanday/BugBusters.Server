@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OptiOverflow.Core.Entities;
+using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Repositories;
 using OptiOverflow.Core.Interfaces.Services;
 using OptiOverflow.Repository;
@@ -165,6 +166,7 @@ public static class Extension
 
     private static void ConfigureAppServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
         builder.Services.AddTransient<IUserProfileService, UserProfileService>();
         builder.Services.AddTransient<IQuestionService, QuestionService>();
         builder.Services.AddTransient<IAnswerService, AnswerService>();

@@ -1,4 +1,5 @@
-﻿using OptiOverflow.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
 using OptiOverflow.Repository.Base;
 using OptiOverflow.Repository.DatabaseContext;
@@ -9,5 +10,11 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
 {
     public QuestionRepository(ApplicationDbContext context) : base(context)
     {
+    }
+
+    public async Task<List<Question>> GetAll()
+    {
+        var questions = await Queryable.Include(x => x.Votes).ToListAsync();
+        return questions;
     }
 }

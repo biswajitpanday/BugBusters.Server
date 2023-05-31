@@ -9,4 +9,5 @@ public class QuestionDto : IMapFrom<Question>
     public string Title { get; set; } = null!;
     public string Body { get; set; } = null!;
     public Guid CreatedById { get; set; }
+    public int VoteCount { get; set; }
 }

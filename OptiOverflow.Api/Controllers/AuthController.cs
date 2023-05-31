@@ -45,21 +45,26 @@ public class AuthController: ControllerBase
         var user = await _userManager.FindByNameAsync(model.UserName);
         if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
-            var userRoles = await _userManager.GetRolesAsync(user);
+            //var userRoles = await _userManager.GetRolesAsync(user);
             if (user.UserName == null) return Unauthorized();
-            var authClaims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
-            foreach (var userRole in userRoles)
-                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-            var token = GetToken(authClaims);
+            // var authClaims = new List<Claim>
+            // {
+            //     new Claim(ClaimTypes.Name, user.UserName),
+            //     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            // };
+            // foreach (var userRole in userRoles)
+            //     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+            //var token = GetToken(authClaims);
+            
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var token = GenerateToken(user, userRoles);
 
             return Ok(new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
+                expiration = token.ValidTo,
+                isActivated = true,
+                profile = await _userProfileService.Get(user)
             });
         }
         return Unauthorized();
@@ -132,6 +137,28 @@ public class AuthController: ControllerBase
             issuer: _configuration["JWT:ValidIssuer"],
             audience: _configuration["JWT:ValidAudience"],
             expires: DateTime.Now.AddHours(24),
+            claims: authClaims,
+            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+        );
+        return token;
+    }
+
+    private JwtSecurityToken GenerateToken(ApplicationUser user, IList<string> userRoles)
+    {
+        var authClaims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+        authClaims.AddRange(userRoles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));
+
+        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"] ?? string.Empty));
+
+        var token = new JwtSecurityToken(
+            _configuration["JWT:ValidIssuer"],
+            _configuration["JWT:ValidAudience"],
+            expires: DateTime.Now.AddDays(730),
             claims: authClaims,
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
         );
