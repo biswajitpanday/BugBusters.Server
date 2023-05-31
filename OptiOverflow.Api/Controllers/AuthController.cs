@@ -83,7 +83,10 @@ public class AuthController: ControllerBase
         {
             Email = model.Email,
             SecurityStamp = Guid.NewGuid().ToString(),
-            UserName = model.UserName
+            UserName = model.UserName,
+            CreatedAt = DateTime.UtcNow,
+            LastUpdate = DateTime.UtcNow,
+            IsDeleted = false,
         };
         var result = await _userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
@@ -106,7 +109,10 @@ public class AuthController: ControllerBase
         {
             Email = model.Email,
             SecurityStamp = Guid.NewGuid().ToString(),
-            UserName = model.UserName
+            UserName = model.UserName,
+            CreatedAt = DateTime.UtcNow,
+            LastUpdate = DateTime.UtcNow,
+            IsDeleted = false,
         };
         var result = await _userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)

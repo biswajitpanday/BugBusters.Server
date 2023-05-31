@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Repositories;
@@ -104,7 +105,12 @@ public static class Extension
     private static void ConfigureAppCorsPolicy(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(option =>
-            option.AddPolicy("AppPolicy", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
+            option.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin().
+                    AllowAnyMethod().
+                    AllowAnyHeader();
+            }));
     }
 
     private static void ConfigureAppDbContext(this WebApplicationBuilder builder)
@@ -117,38 +123,73 @@ public static class Extension
 
     private static void ConfigureAppIdentity(this WebApplicationBuilder builder)
     {
-        builder.Services.AddIdentityCore<ApplicationUser>(options =>
+        // Identity Configuration
+        var identityBuilder = builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
         {
             options.Password.RequireDigit = false;
             options.Password.RequireLowercase = false;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequireUppercase = false;
             options.Password.RequiredLength = 6;
-        })
+            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+        });
+
+        identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(IdentityRole<Guid>), identityBuilder.Services);
+        identityBuilder
             .AddRoles<IdentityRole<Guid>>()
+            .AddRoleValidator<RoleValidator<IdentityRole<Guid>>>()
             .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
             .AddSignInManager<SignInManager<ApplicationUser>>()
-            .AddRoleValidator<RoleValidator<IdentityRole<Guid>>>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+        // Token Lifespan
+        builder.Services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromDays(7));
+
     }
 
     private static void ConfigureAppAuthentication(this WebApplicationBuilder builder)
     {
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        // Authentication and JWT configure
+        builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var userManager = context.HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+                        var user = userManager.GetUserAsync(context.Principal).Result;
+                        if (user.IsDeleted)
+                            throw new AuthException("UnAuthorized");
+                        var currentUser = context.HttpContext.RequestServices.GetRequiredService<ICurrentUserService>();
+                        currentUser.SetClaims(context.Principal.Claims);
+                        return Task.CompletedTask;
+                    }
+                };
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey =
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"] ?? string.Empty)),
-                    ValidateIssuer = false,
-                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidAudience = builder.Configuration["JWT:ValidAudience"],
+                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
                 };
             });
+
+        // Configure Policies
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy(PolicyConstants.ApplicationAdmin, policy => policy.RequireRole(UserRoles.Admin));
+            options.AddPolicy(PolicyConstants.ApplicationUser, policy => policy.RequireRole(UserRoles.Admin, UserRoles.User));
+        });
     }
 
     private static void ConfigureAppAutoMapper(this WebApplicationBuilder builder)
@@ -157,7 +198,6 @@ public static class Extension
             .GetAssemblies()
             .Where(x => x.FullName!.StartsWith(nameof(OptiOverflow))));
     }
-
 
     #endregion
 
@@ -181,7 +221,7 @@ public static class Extension
         builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
         builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
         builder.Services.AddScoped<IVoteRepository, VoteRepository>();
-        
+
     }
 
     #endregion

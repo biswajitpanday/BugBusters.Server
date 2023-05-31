@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSerilogRequestLogging();
-app.UseCors("AppPolicy");
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseResponseCompression();
