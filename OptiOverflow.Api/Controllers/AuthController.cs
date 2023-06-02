@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OptiOverflow.Core.Dtos;
 using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
@@ -14,10 +13,8 @@ using OptiOverflow.Core.Interfaces.Services;
 namespace OptiOverflow.Api.Controllers;
 
 
-[Route("api/[controller]")]
-[ApiController]
 [AllowAnonymous]
-public class AuthController: ControllerBase
+public class AuthController: BaseController
 {
     private readonly ILogger<AuthController> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
@@ -45,16 +42,7 @@ public class AuthController: ControllerBase
         var user = await _userManager.FindByNameAsync(model.UserName);
         if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
-            //var userRoles = await _userManager.GetRolesAsync(user);
             if (user.UserName == null) return Unauthorized();
-            // var authClaims = new List<Claim>
-            // {
-            //     new Claim(ClaimTypes.Name, user.UserName),
-            //     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            // };
-            // foreach (var userRole in userRoles)
-            //     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-            //var token = GetToken(authClaims);
             
             var userRoles = await _userManager.GetRolesAsync(user);
             var token = GenerateToken(user, userRoles);
@@ -64,7 +52,8 @@ public class AuthController: ControllerBase
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expiration = token.ValidTo,
                 isActivated = true,
-                profile = await _userProfileService.Get(user)
+                profile = await _userProfileService.Get(user),
+                role = userRoles.FirstOrDefault()
             });
         }
         return Unauthorized();
@@ -93,6 +82,7 @@ public class AuthController: ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new ApiResponseDto<object>
                 { IsSuccess = false, Message = "User creation failed! Please try again later" });
+        await AssignRole(user, UserRoles.User);
         await _userProfileService.Create(model, user);
         return Ok(new ApiResponseDto<object> { IsSuccess = true, Message = "User created successfully" });
     }
@@ -101,6 +91,7 @@ public class AuthController: ControllerBase
     [Route("register-admin")]
     public async Task<IActionResult> RegisterAdmin([FromBody] RegistrationDto model)
     {
+        // Todo: Add Some sorts of verification process so that not everyone can register as Admin.
         var existingUser = await _userManager.FindByNameAsync(model.UserName);
         if (existingUser != null)
             return StatusCode(StatusCodes.Status500InternalServerError,
@@ -120,22 +111,21 @@ public class AuthController: ControllerBase
                 new ApiResponseDto<object>
                 { IsSuccess = false, Message = "Admin creation failed! Please try again later" });
 
-        var userRoles = typeof(UserRoles).GetFields(BindingFlags.Static | BindingFlags.Public)
-            .Where(x => x.IsLiteral && !x.IsInitOnly)
-            .Select(x => x.GetValue(null)).Cast<string>().ToList();
-
-        foreach (var userRole in userRoles)
-            if (!await _roleManager.RoleExistsAsync(userRole))
-                await _roleManager.CreateAsync(new IdentityRole<Guid>(userRole));
-
-        foreach (var userRole in userRoles)
-            if (await _roleManager.RoleExistsAsync(userRole))
-                await _userManager.AddToRoleAsync(user, userRole);
-
+        await AssignRole(user, UserRoles.Admin);
+        await _userProfileService.Create(model, user);
         return Ok(new ApiResponseDto<object> { IsSuccess = true, Message = "Admin created successfully" });
     }
 
+
+
     #region Private Methods
+
+    private async Task AssignRole(ApplicationUser user, string role)
+    {
+        if (await _roleManager.RoleExistsAsync(role))
+            await _userManager.AddToRoleAsync(user, role);
+    }
+
     private JwtSecurityToken GetToken(IEnumerable<Claim> authClaims)
     {
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"] ?? string.Empty));
@@ -154,7 +144,7 @@ public class AuthController: ControllerBase
         var authClaims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
         authClaims.AddRange(userRoles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));

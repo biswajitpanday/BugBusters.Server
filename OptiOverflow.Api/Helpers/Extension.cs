@@ -38,30 +38,6 @@ public static class Extension
         builder.ConfigureAppRepositories();
     }
 
-    // public static void SeedData(this WebApplicationBuilder builder)
-    // {
-    //     try
-    //     {
-    //         var host = CreateHostBuilder().Build();
-    //         Log.Information("Seeding Database...");
-    //         host.SeedData();
-    //         Log.Information("Database Seeding Done. :)");
-    //         host.RunAsync();
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         Log.Fatal("Error Seeding Database!");
-    //     }
-    // }
-    //
-    // public static IHostBuilder CreateHostBuilder()
-    // {
-    //     return Host.CreateDefaultBuilder().UseSerilog().ConfigureWebHostDefaults(webBuilder =>
-    //     {
-    //         webBuilder.UseStartup<Program>();
-    //     }).ConfigureAppConfiguration((host, config) => { config.AddEnvironmentVariables(); });
-    // }
-
     #region App Components
 
     private static void ConfigureSerilog(this WebApplicationBuilder builder)
@@ -226,7 +202,6 @@ public static class Extension
 
     #endregion
 
-
     #region App DI
 
     private static void ConfigureAppServices(this WebApplicationBuilder builder)
@@ -250,5 +225,4 @@ public static class Extension
     }
 
     #endregion
-
 }

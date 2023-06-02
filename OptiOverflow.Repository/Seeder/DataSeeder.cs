@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Entities;
@@ -13,23 +14,19 @@ public class DataSeeder
     {
         if (!roleManager.Roles.Any())
         {
-            var roles = new List<IdentityRole<Guid>>
-            {
-                new() { Name = UserRoles.Admin, NormalizedName = UserRoles.Admin.ToUpper() },
-                new() { Name = UserRoles.User, NormalizedName = UserRoles.User.ToUpper() }
-            };
+            var userRoles = typeof(UserRoles).GetFields(BindingFlags.Static | BindingFlags.Public)
+                .Where(x => x.IsLiteral && !x.IsInitOnly)
+                .Select(x => x.GetValue(null)).Cast<string>().ToList();
 
-            foreach (var role in roles)
-            {
-                if (!await roleManager.RoleExistsAsync(role.Name))
-                    await roleManager.CreateAsync(role);
-            }
+            foreach (var userRole in userRoles)
+                if (!await roleManager.RoleExistsAsync(userRole))
+                    await roleManager.CreateAsync(new IdentityRole<Guid>(userRole));
         }
     }
 
     public async Task SeedAdmin(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
-        var user = new ApplicationUser
+        var adminUser = new ApplicationUser
         {
             Email = "optiAdmin@optioverflow.com",
             UserName = "optiAdmin",
@@ -42,18 +39,18 @@ public class DataSeeder
             NormalizedUserName = "OPTIADMIN",
             PhoneNumberConfirmed = true,
         };
-        var applicationUser = await userManager.FindByEmailAsync(user.Email);
-        if (applicationUser == null)
+        var dbUser = await userManager.FindByEmailAsync(adminUser.Email);
+        if (dbUser == null)
         {
-            var response = await userManager.CreateAsync(user, "123@456");
-            if (response.Succeeded)
+            var userCreateResponse = await userManager.CreateAsync(adminUser, "123@456");
+            if (userCreateResponse.Succeeded)
             {
-                var roleAssignResult = await userManager.AddToRoleAsync(user, UserRoles.Admin);
-                if (!roleAssignResult.Succeeded)
-                    await userManager.DeleteAsync(user);
-                if (context.UserProfile != null && !await context.UserProfile.AnyAsync(x => x.AccountId == user.Id))
+                var roleAssignResponse = await userManager.AddToRoleAsync(adminUser, UserRoles.Admin);
+                if (!roleAssignResponse.Succeeded)
+                    await userManager.DeleteAsync(adminUser);
+                else if (context.UserProfile != null && !await context.UserProfile.AnyAsync(x => x.AccountId == adminUser.Id))
                     await context.AddAsync(new UserProfile
-                        { AccountId = user.Id, FirstName = "Opti", LastName = "Admin", Phone = "+880xxxxxxxxxx" });
+                        { AccountId = adminUser.Id, FirstName = "Opti", LastName = "Admin", Phone = "+880xxxxxxxxxx" });
             }
             await context.SaveChangesAsync();
         }
