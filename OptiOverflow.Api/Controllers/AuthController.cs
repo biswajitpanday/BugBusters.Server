@@ -159,14 +159,15 @@ public class AuthController: ControllerBase
         };
         authClaims.AddRange(userRoles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));
 
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"] ?? string.Empty));
+        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+        var cred = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
             _configuration["JWT:ValidIssuer"],
             _configuration["JWT:ValidAudience"],
-            expires: DateTime.Now.AddDays(730),
+            expires: DateTime.Now.AddMinutes(Convert.ToDouble((_configuration["JWT:ExpireInMinutes"]))),
             claims: authClaims,
-            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            signingCredentials: cred
         );
         return token;
     }

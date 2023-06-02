@@ -38,6 +38,29 @@ public static class Extension
         builder.ConfigureAppRepositories();
     }
 
+    // public static void SeedData(this WebApplicationBuilder builder)
+    // {
+    //     try
+    //     {
+    //         var host = CreateHostBuilder().Build();
+    //         Log.Information("Seeding Database...");
+    //         host.SeedData();
+    //         Log.Information("Database Seeding Done. :)");
+    //         host.RunAsync();
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Log.Fatal("Error Seeding Database!");
+    //     }
+    // }
+    //
+    // public static IHostBuilder CreateHostBuilder()
+    // {
+    //     return Host.CreateDefaultBuilder().UseSerilog().ConfigureWebHostDefaults(webBuilder =>
+    //     {
+    //         webBuilder.UseStartup<Program>();
+    //     }).ConfigureAppConfiguration((host, config) => { config.AddEnvironmentVariables(); });
+    // }
 
     #region App Components
 
@@ -178,6 +201,8 @@ public static class Extension
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
                     ValidAudience = builder.Configuration["JWT:ValidAudience"],
                     ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
