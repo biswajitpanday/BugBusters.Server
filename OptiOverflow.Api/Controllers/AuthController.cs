@@ -53,7 +53,6 @@ public class AuthController: BaseController
                 expiration = token.ValidTo,
                 isActivated = true,
                 profile = await _userProfileService.Get(user),
-                role = userRoles.FirstOrDefault()
             });
         }
         return Unauthorized();
@@ -155,7 +154,7 @@ public class AuthController: BaseController
         var token = new JwtSecurityToken(
             _configuration["JWT:ValidIssuer"],
             _configuration["JWT:ValidAudience"],
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble((_configuration["JWT:ExpireInMinutes"]))),
+            expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble((_configuration["JWT:ExpireInMinutes"]))),
             claims: authClaims,
             signingCredentials: cred
         );
