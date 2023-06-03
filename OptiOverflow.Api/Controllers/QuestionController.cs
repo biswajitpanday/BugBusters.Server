@@ -53,7 +53,7 @@ public class QuestionController: BaseController
         var response = await _questionService.Update(question, id, userId);
         if (response == null)
             return NotFound();
-        return Ok(question);
+        return Ok(response);
     }
 
     [HttpDelete("{id:guid}")]

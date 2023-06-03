@@ -3,13 +3,13 @@ using OptiOverflow.Core.Interfaces.Common;
 
 namespace OptiOverflow.Core.Dtos;
 
-public class QuestionDto : IMapFrom<Question>
+public class AnswerDto : IMapFrom<Answer>
 {
     public Guid Id { get; set; }
-    public string Title { get; set; } = null!;
     public string Body { get; set; } = null!;
-    public Guid CreatedById { get; set; }
-    public Guid LastUpdatedById { get; set; }
+    public bool IsAccepted { get; set; }
+    public Guid UserId { get; set; }
+    public Guid QuestionId { get; set; }
     public DateTime CreatedAt { get; set; }
     public int VoteCount { get; set; }
 }

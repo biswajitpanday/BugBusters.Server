@@ -14,7 +14,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
 
     public async Task<List<Question>> GetAll()
     {
-        var questions = await Queryable.Include(x => x.Votes).ToListAsync();
+        var questions = await Queryable.Include(x => x.Votes).AsNoTracking().ToListAsync();
         return questions;
     }
 }
