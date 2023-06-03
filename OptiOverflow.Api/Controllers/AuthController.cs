@@ -146,6 +146,7 @@ public class AuthController: BaseController
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Name, user.UserName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
         authClaims.AddRange(userRoles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));

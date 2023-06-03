@@ -7,7 +7,7 @@ using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Api.Controllers;
 
-[Authorize(Policy= PolicyConstants.ApplicationUser)]
+[Authorize(Policy= PolicyConstants.ApplicationAdmin)]
 public class QuestionController: BaseController
 {
     private readonly ILogger<QuestionController> _logger;
@@ -30,9 +30,9 @@ public class QuestionController: BaseController
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult Get(Guid id)
+    public async Task<ActionResult> Get(Guid id)
     {
-        var question = _questionService.GetById(id);
+        var question = await _questionService.GetById(id);
         if (question == null)
             return NotFound();
         return Ok(question);
