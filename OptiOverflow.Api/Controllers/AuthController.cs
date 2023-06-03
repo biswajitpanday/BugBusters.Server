@@ -12,7 +12,6 @@ using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Api.Controllers;
 
-
 [AllowAnonymous]
 public class AuthController: BaseController
 {
@@ -115,6 +114,9 @@ public class AuthController: BaseController
         return Ok(new ApiResponseDto<object> { IsSuccess = true, Message = "Admin created successfully" });
     }
 
+
+    // Todo: Forget Password
+    // Todo: Reset Password
 
 
     #region Private Methods

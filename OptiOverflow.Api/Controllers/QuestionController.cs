@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Api.Controllers;
 
+[Authorize(Policy= PolicyConstants.ApplicationUser)]
 public class QuestionController: BaseController
 {
     private readonly ILogger<QuestionController> _logger;

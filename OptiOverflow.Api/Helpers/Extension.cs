@@ -189,7 +189,7 @@ public static class Extension
         builder.Services.AddAuthorization(options =>
         {
             options.AddPolicy(PolicyConstants.ApplicationAdmin, policy => policy.RequireRole(UserRoles.Admin));
-            options.AddPolicy(PolicyConstants.ApplicationUser, policy => policy.RequireRole(UserRoles.Admin, UserRoles.User));
+            options.AddPolicy(PolicyConstants.ApplicationUser, policy => policy.RequireRole(UserRoles.User));
         });
     }
 
