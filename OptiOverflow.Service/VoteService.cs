@@ -28,8 +28,8 @@ public class VoteService : IVoteService
 
     public async Task<VoteDto?> Create(VoteCreateDto vote, Guid userId)
     {
-        var isAlreadyVoted = await _voteRepository.AnyAsync(x => x.UserId == userId && (x.QuestionId == vote.QuestionId || x.AnswerId == vote.AnswerId));
-        if (isAlreadyVoted)
+        var voteAlreadyExists = await _voteRepository.AnyAsync(x => x.UserId == userId && (x.QuestionId == vote.QuestionId || x.AnswerId == vote.AnswerId));
+        if (voteAlreadyExists)
             return null;
         var voteEntity = _mapper.Map<Vote>(vote);
         voteEntity.UserId = userId;

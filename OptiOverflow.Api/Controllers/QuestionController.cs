@@ -26,6 +26,8 @@ public class QuestionController: BaseController
     public async Task<ActionResult> Get()
     {
         var questions = await _questionService.GetAll();
+        if (questions == null)
+            return NotFound();
         return Ok(questions);
     }
 

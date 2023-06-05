@@ -6,14 +6,14 @@ using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Service;
 
-public class QuestionService: IQuestionService
+public class QuestionService : IQuestionService
 {
     private readonly IMapper _mapper;
     private readonly IQuestionRepository _questionRepository;
     private readonly IVoteRepository _voteRepository;
 
-    public QuestionService(IMapper mapper, 
-        IQuestionRepository questionRepository, 
+    public QuestionService(IMapper mapper,
+        IQuestionRepository questionRepository,
         IVoteRepository voteRepository)
     {
         _mapper = mapper;
@@ -21,14 +21,19 @@ public class QuestionService: IQuestionService
         _voteRepository = voteRepository;
     }
 
-    public async Task<List<QuestionDto>> GetAll()
+    public async Task<List<QuestionDto>?> GetAll()
     {
         var questions = await _questionRepository.GetAll();
-        // var questions = await _questionRepository.ListAsync();
+        if (questions.Count <= 0)
+            return null;
         var questionsDto = _mapper.Map<List<QuestionDto>>(questions);
         foreach (var question in questionsDto)
         {
-            question.VoteCount = questions.Count(x => x.Id == question.Id);
+            var vote = questions.First(x => x.Id == question.Id).Votes;
+            if (vote == null) continue;
+        
+            question.UpVoteCount = vote.Count(v => v.IsUpVote);
+            question.DownVoteCount = vote.Count(v => !v.IsUpVote);
         }
         return questionsDto;
     }
@@ -57,7 +62,7 @@ public class QuestionService: IQuestionService
         var questionEntity = _mapper.Map<Question>(questionUpdateDto);
         questionEntity.Id = id;
         questionEntity.LastUpdatedById = userId;
-        
+
         await _questionRepository.UpdateAsync(questionEntity);
         await _questionRepository.SaveChangesAsync();
         return _mapper.Map<QuestionDto>(questionEntity);
