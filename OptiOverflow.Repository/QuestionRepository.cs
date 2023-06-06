@@ -14,7 +14,23 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
 
     public async Task<List<Question>> GetAll()
     {
-        var questions = await Queryable.Include(x => x.Votes).AsNoTracking().ToListAsync();
+        var questions = await Queryable
+            .Where(x => !x.IsDeleted)
+            .Include(x => x.Votes)
+            .AsNoTracking()
+            .ToListAsync();
         return questions;
+    }
+
+    public async Task<Question?> GetById(Guid id)
+    {
+        var question = await Queryable
+            .Include(x => x.Votes)
+            .Include(x => x.Answers)
+            .ThenInclude(x => x.Votes)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+            
+        return question;
     }
 }

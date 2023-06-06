@@ -31,7 +31,6 @@ public class QuestionService : IQuestionService
         {
             var vote = questions.First(x => x.Id == question.Id).Votes;
             if (vote == null) continue;
-        
             question.UpVoteCount = vote.Count(v => v.IsUpVote);
             question.DownVoteCount = vote.Count(v => !v.IsUpVote);
         }
@@ -40,8 +39,35 @@ public class QuestionService : IQuestionService
 
     public async Task<QuestionDto?> GetById(Guid id)
     {
-        var question = await _questionRepository.GetAsync(id);
+        var question = await _questionRepository.GetById(id);
+        if (question == null)
+            return null;
         var questionDto = _mapper.Map<QuestionDto?>(question);
+
+        if (questionDto != null)
+        {
+            if (question.Votes != null)
+            {
+                questionDto.UpVoteCount = question.Votes.Count(v => v.IsUpVote);
+                questionDto.DownVoteCount = question.Votes.Count(v => !v.IsUpVote);
+
+                if (question.Answers != null && questionDto.Answers != null)
+                {
+                    foreach (var answer in questionDto.Answers)
+                    {
+
+                        if (answer != null)
+                        {
+                            var votes = question.Answers.First(x => x.Id == answer.Id).Votes;
+                            if(votes == null) continue;
+                            answer.UpVoteCount = votes.Count(v => v.IsUpVote);
+                            answer.DownVoteCount = votes.Count(v => !v.IsUpVote);
+                        }
+                    }
+                }
+            }
+        }
+
         return questionDto;
     }
 
@@ -51,8 +77,6 @@ public class QuestionService : IQuestionService
         questionEntity.CreatedById = userId;
         questionEntity.LastUpdatedById = userId;
         await _questionRepository.AddAsync(questionEntity);
-        //var vote = new Vote{QuestionId = questionEntity.Id, VoteType = }  // Todo: Handle Vote Create.
-
         await _questionRepository.SaveChangesAsync();
         return _mapper.Map<QuestionDto>(questionEntity);
     }
@@ -62,7 +86,6 @@ public class QuestionService : IQuestionService
         var questionEntity = _mapper.Map<Question>(questionUpdateDto);
         questionEntity.Id = id;
         questionEntity.LastUpdatedById = userId;
-
         await _questionRepository.UpdateAsync(questionEntity);
         await _questionRepository.SaveChangesAsync();
         return _mapper.Map<QuestionDto>(questionEntity);

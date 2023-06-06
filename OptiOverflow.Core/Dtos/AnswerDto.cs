@@ -11,5 +11,6 @@ public class AnswerDto : IMapFrom<Answer>
     public Guid UserId { get; set; }
     public Guid QuestionId { get; set; }
     public DateTime CreatedAt { get; set; }
-    public int VoteCount { get; set; }
+    public int UpVoteCount { get; set; }
+    public int DownVoteCount { get; set; }
 }

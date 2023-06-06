@@ -13,4 +13,5 @@ public class QuestionDto : IMapFrom<Question>
     public DateTime CreatedAt { get; set; }
     public int UpVoteCount { get; set; }
     public int DownVoteCount { get; set; }
+    public List<AnswerDto?>? Answers { get; set; }
 }

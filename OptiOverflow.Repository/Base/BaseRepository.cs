@@ -23,7 +23,7 @@ public class BaseRepository<T> : EFRepository<T>, IBaseRepository<T> where T : B
 
     #region Commands
 
-    //public new void Add(T item) => _dbSet.Add(item);
+    public new void Add(T item) => _dbSet.Add(item);
 
     //public new async Task AddAsync(T item) => await _dbSet.AddAsync(item);
 
@@ -117,29 +117,29 @@ public class BaseRepository<T> : EFRepository<T>, IBaseRepository<T> where T : B
 
     #region Queries
 
-    //public new bool Any() => _queryable!.Any<T>();
+    public new bool Any() => _queryable!.Any<T>();
 
-    //public new bool Any(Expression<Func<T, bool>> where) => _queryable!.Any<T>(@where);
+    public new bool Any(Expression<Func<T, bool>> where) => _queryable!.Any<T>(@where);
 
-    //public new async Task<bool> AnyAsync() => await _queryable!.AnyAsync<T>();
+    public new async Task<bool> AnyAsync() => await _queryable!.AnyAsync<T>();
 
-    //public new async Task<bool> AnyAsync(Expression<Func<T, bool>> where) => await _queryable!.AnyAsync<T>(@where);
+    public new async Task<bool> AnyAsync(Expression<Func<T, bool>> where) => await _queryable!.AnyAsync<T>(@where);
 
-    //public new long Count() => _queryable!.LongCount<T>();
+    public new long Count() => _queryable!.LongCount<T>();
 
-    //public new long Count(Expression<Func<T, bool>> where) => _queryable!.LongCount<T>(@where);
+    public new long Count(Expression<Func<T, bool>> where) => _queryable!.LongCount<T>(@where);
 
-    //public new async Task<long> CountAsync() => await _queryable!.LongCountAsync<T>();
+    public new async Task<long> CountAsync() => await _queryable!.LongCountAsync<T>();
 
-    //public new async Task<long> CountAsync(Expression<Func<T, bool>> where) => await _queryable!.LongCountAsync<T>(@where);
+    public new async Task<long> CountAsync(Expression<Func<T, bool>> where) => await _queryable!.LongCountAsync<T>(@where);
 
     public T? Get(Guid key) => _context.DetectChangesLazyLoading(false).Set<T>().Find(key);
 
     public async Task<T?> GetAsync(Guid key) => await _queryable.Where(x => x!.Id == key).SingleOrDefaultAsync();
 
-    //public new IEnumerable<T> List() => _queryable!.ToList<T>();
+    public new IEnumerable<T> List() => _queryable!.ToList<T>();
 
-    //public new async Task<IEnumerable<T>> ListAsync() => await _queryable!.ToListAsync<T>().ConfigureAwait(false);
+    public new async Task<IEnumerable<T>> ListAsync() => await _queryable!.ToListAsync<T>().ConfigureAwait(false);
 
 
     #endregion
