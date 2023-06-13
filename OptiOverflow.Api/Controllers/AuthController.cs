@@ -42,21 +42,10 @@ public class AuthController: BaseController
         if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
             if (user.Email == null) return Unauthorized();
-            
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var token = GenerateToken(user, userRoles);
-
-            return Ok(new
-            {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo,
-                isActivated = true,
-                profile = await _userProfileService.Get(user),
-            });
+            return await CreateAuthResponse(user);
         }
         return Unauthorized();
-    }
-
+    }    
 
     [HttpPost]
     [Route("register")]
@@ -87,7 +76,7 @@ public class AuthController: BaseController
                 { IsSuccess = false, Message = "User creation failed! Please try again later" });
         await AssignRole(user, UserRoles.User);
         await _userProfileService.Create(model, user);
-        return Ok(new ApiResponseDto<object> { IsSuccess = true, Message = "User created successfully" });
+        return await CreateAuthResponse(user);
     }
 
     [HttpPost]
@@ -120,7 +109,7 @@ public class AuthController: BaseController
 
         await AssignRole(user, UserRoles.Admin);
         await _userProfileService.Create(model, user);
-        return Ok(new ApiResponseDto<object> { IsSuccess = true, Message = "Admin created successfully" });
+        return await CreateAuthResponse(user);
     }
 
 
@@ -129,6 +118,20 @@ public class AuthController: BaseController
 
 
     #region Private Methods
+
+    private async Task<IActionResult> CreateAuthResponse(ApplicationUser user)
+    {
+        var userRoles = await _userManager.GetRolesAsync(user);
+        var token = GenerateToken(user, userRoles);
+
+        return Ok(new
+        {
+            token = new JwtSecurityTokenHandler().WriteToken(token),
+            expiration = token.ValidTo,
+            isActivated = true,
+            profile = await _userProfileService.Get(user),
+        });
+    }
 
     private async Task AssignRole(ApplicationUser user, string role)
     {
