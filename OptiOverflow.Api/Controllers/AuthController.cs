@@ -36,12 +36,12 @@ public class AuthController: BaseController
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto model)
+    public async Task<IActionResult> Login(LoginDto model)
     {
-        var user = await _userManager.FindByNameAsync(model.UserName);
+        var user = await _userManager.FindByEmailAsync(model.Email);
         if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
-            if (user.UserName == null) return Unauthorized();
+            if (user.Email == null) return Unauthorized();
             
             var userRoles = await _userManager.GetRolesAsync(user);
             var token = GenerateToken(user, userRoles);
@@ -62,10 +62,15 @@ public class AuthController: BaseController
     [Route("register")]
     public async Task<IActionResult> Register([FromBody] RegistrationDto model)
     {
-        var existingUser = await _userManager.FindByNameAsync(model.UserName);
-        if (existingUser != null)
+        var existingUserByEmail = await _userManager.FindByEmailAsync(model.Email);
+        if (existingUserByEmail != null)
             return StatusCode(StatusCodes.Status500InternalServerError,
-                new ApiResponseDto<object> { IsSuccess = false, Message = "User already exists" });
+                new ApiResponseDto<object> { IsSuccess = false, Message = "Email already exists" });
+        var existingUserByUserName = await _userManager.FindByNameAsync(model.UserName);
+        if (existingUserByUserName != null)
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                new ApiResponseDto<object> { IsSuccess = false, Message = "Username already exists" });
+
         ApplicationUser user = new()
         {
             Email = model.Email,
@@ -90,10 +95,14 @@ public class AuthController: BaseController
     public async Task<IActionResult> RegisterAdmin([FromBody] RegistrationDto model)
     {
         // Todo: Add Some sorts of verification process so that not everyone can register as Admin.
-        var existingUser = await _userManager.FindByNameAsync(model.UserName);
-        if (existingUser != null)
+        var existingUserByEmail = await _userManager.FindByEmailAsync(model.Email);
+        if (existingUserByEmail != null)
             return StatusCode(StatusCodes.Status500InternalServerError,
-                new ApiResponseDto<object> { IsSuccess = false, Message = "Admin already exists" });
+                new ApiResponseDto<object> { IsSuccess = false, Message = "Email already exists" });
+        var existingUserByUserName = await _userManager.FindByNameAsync(model.UserName);
+        if (existingUserByUserName != null)
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                new ApiResponseDto<object> { IsSuccess = false, Message = "Username already exists" });
         ApplicationUser user = new()
         {
             Email = model.Email,
