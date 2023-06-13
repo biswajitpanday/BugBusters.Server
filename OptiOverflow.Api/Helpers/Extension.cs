@@ -108,7 +108,8 @@ public static class Extension
             {
                 policyBuilder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(origin => true);
             }));
     }
 
