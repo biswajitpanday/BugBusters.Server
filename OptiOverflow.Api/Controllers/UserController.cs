@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Entities;
+using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Api.Controllers
 {
@@ -12,18 +12,21 @@ namespace OptiOverflow.Api.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger, UserManager<ApplicationUser> userManager)
+        public UserController(ILogger<UserController> logger, UserManager<ApplicationUser> userManager,
+            IUserService userService)
         {
             _logger = logger;
             _userManager = userManager;
+            _userService = userService;
         }
 
 
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userService.Get(); // @todo
             if (!users.Any())
                 return NotFound();
             return Ok(users);
