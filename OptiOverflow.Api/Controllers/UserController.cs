@@ -26,8 +26,8 @@ namespace OptiOverflow.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            var users = await _userService.Get(); // @todo
-            if (!users.Any())
+            var users = await _userService.Get();
+            if (users != null && !users.Any())
                 return NotFound();
             return Ok(users);
         }
@@ -35,7 +35,7 @@ namespace OptiOverflow.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ActionResult> Get(Guid id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userService.GetById(id);
             if (user == null)
                 return NotFound();
             return Ok(user);
@@ -47,7 +47,7 @@ namespace OptiOverflow.Api.Controllers
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
                 return NotFound();
-            await _userManager.DeleteAsync(user);
+            await _userManager.DeleteAsync(user);   // Todo: Soft Delete Account. Need to SoftDelete the Profile
             return NoContent();
         }
     }
