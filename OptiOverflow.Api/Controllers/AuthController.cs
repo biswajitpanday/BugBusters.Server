@@ -13,7 +13,7 @@ using OptiOverflow.Core.Interfaces.Services;
 namespace OptiOverflow.Api.Controllers;
 
 [AllowAnonymous]
-public class AuthController: BaseController
+public class AuthController : BaseController
 {
     private readonly ILogger<AuthController> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
@@ -21,7 +21,7 @@ public class AuthController: BaseController
     private readonly IUserProfileService _userProfileService;
     private readonly IConfiguration _configuration;
 
-    public AuthController(ILogger<AuthController> logger, 
+    public AuthController(ILogger<AuthController> logger,
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole<Guid>> roleManager,
         IUserProfileService userProfileService,
@@ -45,7 +45,7 @@ public class AuthController: BaseController
             return await CreateAuthResponse(user);
         }
         return Unauthorized();
-    }    
+    }
 
     [HttpPost]
     [Route("register")]
@@ -123,13 +123,13 @@ public class AuthController: BaseController
     {
         var userRoles = await _userManager.GetRolesAsync(user);
         var token = GenerateToken(user, userRoles);
-
+        var profile = await _userProfileService.Get(user);
         return Ok(new
         {
             token = new JwtSecurityTokenHandler().WriteToken(token),
-            expiration = token.ValidTo,
+            role = userRoles.Select(x => x).FirstOrDefault(),
             isActivated = true,
-            profile = await _userProfileService.Get(user),
+            profile
         });
     }
 
@@ -163,7 +163,7 @@ public class AuthController: BaseController
         };
         authClaims.AddRange(userRoles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));
 
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]!));
         var cred = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
