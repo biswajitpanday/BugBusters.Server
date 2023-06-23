@@ -209,6 +209,7 @@ public static class Extension
     {
         builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
         builder.Services.AddTransient<IUserProfileService, UserProfileService>();
+        builder.Services.AddTransient<IUserService, UserService>();
         builder.Services.AddTransient<IQuestionService, QuestionService>();
         builder.Services.AddTransient<IAnswerService, AnswerService>();
         builder.Services.AddTransient<IVoteService, VoteService>();
