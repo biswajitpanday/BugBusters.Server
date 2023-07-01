@@ -18,7 +18,6 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
             .Where(x => !x.IsDeleted)
             .Include(x => x.Votes)
             .Include(x => x.Answers)
-
             .AsNoTracking()
             .ToListAsync();
         return questions;
