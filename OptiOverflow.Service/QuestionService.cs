@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
@@ -11,19 +13,26 @@ public class QuestionService : IQuestionService
     private readonly IMapper _mapper;
     private readonly IQuestionRepository _questionRepository;
     private readonly IVoteRepository _voteRepository;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IUserProfileRepository _profileRepository;
 
     public QuestionService(IMapper mapper,
         IQuestionRepository questionRepository,
-        IVoteRepository voteRepository)
+        IVoteRepository voteRepository,
+        UserManager<ApplicationUser> userManager,
+        IUserProfileRepository profileRepository)
     {
         _mapper = mapper;
         _questionRepository = questionRepository;
         _voteRepository = voteRepository;
+        _userManager = userManager;
+        _profileRepository = profileRepository;
     }
 
     public async Task<List<QuestionDto>?> GetAll()
     {
         var questions = await _questionRepository.GetAll();
+        var profiles = (await _profileRepository.ListAsync()).ToList();
         if (questions.Count <= 0)
             return null;
         var questionsDto = _mapper.Map<List<QuestionDto>>(questions);
@@ -33,6 +42,9 @@ public class QuestionService : IQuestionService
             if (vote == null) continue;
             question.UpVoteCount = vote.Count(v => v.IsUpVote);
             question.DownVoteCount = vote.Count(v => !v.IsUpVote);
+            if (question.Answers != null) 
+                question.AnswerCount = question.Answers.Count;
+            question.CreatedByProfile = profiles.First(x => x.AccountId == question.CreatedById);
         }
         return questionsDto;
     }
@@ -50,6 +62,7 @@ public class QuestionService : IQuestionService
             {
                 questionDto.UpVoteCount = question.Votes.Count(v => v.IsUpVote);
                 questionDto.DownVoteCount = question.Votes.Count(v => !v.IsUpVote);
+                questionDto.CreatedByProfile = await _profileRepository.Queryable.FirstAsync(x => x.AccountId == question.CreatedById);
 
                 if (question.Answers != null && questionDto.Answers != null)
                 {

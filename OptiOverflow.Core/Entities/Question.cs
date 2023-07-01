@@ -1,9 +1,4 @@
-﻿
-using System.Globalization;
-using OptiOverflow.Core.Helpers;
-using OptiOverflow.Core.Interfaces.Common;
-
-namespace OptiOverflow.Core.Entities;
+﻿namespace OptiOverflow.Core.Entities;
 
 public class Question: BaseEntity//, IStringSearchable
 {
