@@ -29,13 +29,13 @@ public class QuestionService : IQuestionService
         _profileRepository = profileRepository;
     }
 
-    public async Task<List<QuestionDto>?> GetAll()
+    public async Task<List<QuestionResponseDto>?> GetAll()
     {
         var questions = await _questionRepository.GetAll();
-        var profiles = (await _profileRepository.ListAsync()).ToList();
+        var profiles = (await _profileRepository.ListAsync()).ToList(); // todo: Need to normalize. Move to repository. Join while doing the query.
         if (questions.Count <= 0)
             return null;
-        var questionsDto = _mapper.Map<List<QuestionDto>>(questions);
+        var questionsDto = _mapper.Map<List<QuestionResponseDto>>(questions);
         foreach (var question in questionsDto)
         {
             var vote = questions.First(x => x.Id == question.Id).Votes;
@@ -44,17 +44,18 @@ public class QuestionService : IQuestionService
             question.DownVoteCount = vote.Count(v => !v.IsUpVote);
             if (question.Answers != null) 
                 question.AnswerCount = question.Answers.Count;
+            question.Answers = null;
             question.CreatedByProfile = profiles.First(x => x.AccountId == question.CreatedById);
         }
         return questionsDto;
     }
 
-    public async Task<QuestionDto?> GetById(Guid id)
+    public async Task<QuestionResponseDto?> GetById(Guid id)
     {
         var question = await _questionRepository.GetById(id);
         if (question == null)
             return null;
-        var questionDto = _mapper.Map<QuestionDto?>(question);
+        var questionDto = _mapper.Map<QuestionResponseDto?>(question);
 
         if (questionDto != null)
         {
@@ -84,24 +85,24 @@ public class QuestionService : IQuestionService
         return questionDto;
     }
 
-    public async Task<QuestionDto> Create(QuestionCreateDto questionCreateDto, Guid userId)
+    public async Task<QuestionResponseDto> Create(QuestionCreateDto questionCreateDto, Guid userId)
     {
         var questionEntity = _mapper.Map<Question>(questionCreateDto);
         questionEntity.CreatedById = userId;
         questionEntity.LastUpdatedById = userId;
         await _questionRepository.AddAsync(questionEntity);
         await _questionRepository.SaveChangesAsync();
-        return _mapper.Map<QuestionDto>(questionEntity);
+        return _mapper.Map<QuestionResponseDto>(questionEntity);
     }
 
-    public async Task<QuestionDto?> Update(QuestionUpdateDto questionUpdateDto, Guid id, Guid userId)
+    public async Task<QuestionResponseDto?> Update(QuestionUpdateDto questionUpdateDto, Guid id, Guid userId)
     {
         var questionEntity = _mapper.Map<Question>(questionUpdateDto);
         questionEntity.Id = id;
         questionEntity.LastUpdatedById = userId;
         await _questionRepository.UpdateAsync(questionEntity);
         await _questionRepository.SaveChangesAsync();
-        return _mapper.Map<QuestionDto>(questionEntity);
+        return _mapper.Map<QuestionResponseDto>(questionEntity);
     }
 
     public async Task Delete(Guid id)
