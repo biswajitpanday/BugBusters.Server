@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Repository.DatabaseContext;
@@ -38,6 +37,8 @@ public class DataSeeder
             NormalizedEmail = "OPTIADMIN@OPTIOVERFLOW.COM",
             NormalizedUserName = "OPTIADMIN",
             PhoneNumberConfirmed = true,
+            FirstName = "Opti",
+            LastName = "Admin"
         };
         var dbUser = await userManager.FindByEmailAsync(adminUser.Email);
         if (dbUser == null)
@@ -48,9 +49,6 @@ public class DataSeeder
                 var roleAssignResponse = await userManager.AddToRoleAsync(adminUser, UserRoles.Admin);
                 if (!roleAssignResponse.Succeeded)
                     await userManager.DeleteAsync(adminUser);
-                else if (context.UserProfile != null && !await context.UserProfile.AnyAsync(x => x.AccountId == adminUser.Id))
-                    await context.AddAsync(new UserProfile
-                        { AccountId = adminUser.Id, FirstName = "Opti", LastName = "Admin", Phone = "+880xxxxxxxxxx" });
             }
             await context.SaveChangesAsync();
         }

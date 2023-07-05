@@ -5,6 +5,7 @@ using OptiOverflow.Core.Dtos;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Entities;
@@ -16,21 +17,21 @@ namespace OptiOverflow.Api.Controllers;
 public class AuthController : BaseController
 {
     private readonly ILogger<AuthController> _logger;
+    private readonly IMapper _mapper;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
-    private readonly IUserProfileService _userProfileService;
     private readonly IConfiguration _configuration;
 
     public AuthController(ILogger<AuthController> logger,
+        IMapper mapper,
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole<Guid>> roleManager,
-        IUserProfileService userProfileService,
         IConfiguration configuration)
     {
         _logger = logger;
+        _mapper = mapper;
         _userManager = userManager;
         _roleManager = roleManager;
-        _userProfileService = userProfileService;
         _configuration = configuration;
     }
 
@@ -60,22 +61,13 @@ public class AuthController : BaseController
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new ApiResponseDto<object> { IsSuccess = false, Message = "Username already exists" });
 
-        ApplicationUser user = new()
-        {
-            Email = model.Email,
-            SecurityStamp = Guid.NewGuid().ToString(),
-            UserName = model.UserName,
-            CreatedAt = DateTime.UtcNow,
-            LastUpdate = DateTime.UtcNow,
-            IsDeleted = false,
-        };
+        var user = _mapper.Map<ApplicationUser>(model);
         var result = await _userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new ApiResponseDto<object>
                 { IsSuccess = false, Message = "User creation failed! Please try again later" });
         await AssignRole(user, UserRoles.User);
-        await _userProfileService.Create(model, user);
         return await CreateAuthResponse(user);
     }
 
@@ -92,15 +84,8 @@ public class AuthController : BaseController
         if (existingUserByUserName != null)
             return StatusCode(StatusCodes.Status500InternalServerError,
                 new ApiResponseDto<object> { IsSuccess = false, Message = "Username already exists" });
-        ApplicationUser user = new()
-        {
-            Email = model.Email,
-            SecurityStamp = Guid.NewGuid().ToString(),
-            UserName = model.UserName,
-            CreatedAt = DateTime.UtcNow,
-            LastUpdate = DateTime.UtcNow,
-            IsDeleted = false,
-        };
+
+        var user = _mapper.Map<ApplicationUser>(model);
         var result = await _userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
             return StatusCode(StatusCodes.Status500InternalServerError,
@@ -108,7 +93,6 @@ public class AuthController : BaseController
                 { IsSuccess = false, Message = "Admin creation failed! Please try again later" });
 
         await AssignRole(user, UserRoles.Admin);
-        await _userProfileService.Create(model, user);
         return await CreateAuthResponse(user);
     }
 
@@ -123,13 +107,21 @@ public class AuthController : BaseController
     {
         var userRoles = await _userManager.GetRolesAsync(user);
         var token = GenerateToken(user, userRoles);
-        var profile = await _userProfileService.Get(user);
+        var profileData = new
+        {
+            firstName = user.FirstName,
+            middleName = user.MiddleName,
+            lastName = user.LastName,
+            email = user.Email,
+            phoneNumber = user.PhoneNumber,
+            dateOfBirth = user.DateOfBirth
+        };
         return Ok(new
         {
             token = new JwtSecurityTokenHandler().WriteToken(token),
             role = userRoles.Select(x => x).FirstOrDefault(),
             isActivated = true,
-            profile
+            profileData
         });
     }
 
