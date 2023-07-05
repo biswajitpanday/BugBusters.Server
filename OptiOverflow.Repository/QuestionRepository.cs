@@ -18,6 +18,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
             .Where(x => !x.IsDeleted)
             .Include(x => x.Votes)
             .Include(x => x.Answers)
+            .Include(x => x.CreatedBy)
             .AsNoTracking()
             .ToListAsync();
         return questions;
@@ -27,6 +28,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
     {
         var question = await Queryable
             .Include(x => x.Votes)
+            .Include(x => x.CreatedBy)
             .Include(x => x.Answers)
             .ThenInclude(x => x.Votes)
             .AsNoTracking()

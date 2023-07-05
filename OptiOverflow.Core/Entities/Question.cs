@@ -10,6 +10,10 @@ public class Question: BaseEntity//, IStringSearchable
     public ICollection<Answer>? Answers { get; set; }
     public ICollection<Vote>? Votes { get; set; }
 
+    public ApplicationUser CreatedBy { get; set; } = null!;
+    //public ApplicationUser LastUpdatedBy { get; set; } = null!;
+
+
     // public bool Search(string searchText)
     // {
     //     var values = new[]
