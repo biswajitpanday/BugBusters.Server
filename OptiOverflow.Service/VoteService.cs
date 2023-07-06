@@ -26,7 +26,7 @@ public class VoteService : IVoteService
         _userManager = userManager;
     }
 
-    public async Task<VoteDto?> Create(VoteCreateDto vote, Guid userId)
+    public async Task<VoteResponseDto?> Create(VoteCreateDto vote, Guid userId)
     {
         var voteAlreadyExists = await _voteRepository.AnyAsync(x => x.UserId == userId && (x.QuestionId == vote.QuestionId || x.AnswerId == vote.AnswerId));
         if (voteAlreadyExists)
@@ -36,6 +36,6 @@ public class VoteService : IVoteService
         voteEntity.IsUpVote = vote.IsUpVote;
         await _voteRepository.AddAsync(voteEntity);
         await _voteRepository.SaveChangesAsync();
-        return _mapper.Map<VoteDto>(voteEntity);
+        return _mapper.Map<VoteResponseDto>(voteEntity);
     }
 }

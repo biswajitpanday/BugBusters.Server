@@ -3,7 +3,7 @@ using OptiOverflow.Core.Interfaces.Common;
 
 namespace OptiOverflow.Core.Dtos;
 
-public class AnswerDto : IMapFrom<Answer>
+public class AnswerResponseDto : IMapFrom<Answer>
 {
     public Guid Id { get; set; }
     public string Body { get; set; } = null!;

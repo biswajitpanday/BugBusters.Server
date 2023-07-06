@@ -3,7 +3,7 @@ using OptiOverflow.Core.Interfaces.Common;
 
 namespace OptiOverflow.Core.Dtos;
 
-public class VoteDto : IMapFrom<Vote>
+public class VoteResponseDto : IMapFrom<Vote>
 {
     public Guid Id { get; set; }
     public bool IsUpVote { get; set; }
