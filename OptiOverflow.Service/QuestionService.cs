@@ -34,12 +34,14 @@ public class QuestionService : IQuestionService
         var questionsDto = _mapper.Map<List<QuestionResponseDto>>(questions);
         foreach (var question in questionsDto)
         {
-            var vote = questions.First(x => x.Id == question.Id).Votes;
+            var questionEntity = questions.First(x => x.Id == question.Id);
+            var vote = questionEntity.Votes;
             if (vote == null) continue;
             question.UpVoteCount = vote.Count(v => v.IsUpVote);
             question.DownVoteCount = vote.Count(v => !v.IsUpVote);
             if (question.Answers != null)
                 question.AnswerCount = question.Answers.Count;
+            question.CreatedBy = _mapper.Map<ProfileResponseDto>(questionEntity.CreatedBy);
             question.Answers = null;
         }
         return questionsDto;
@@ -54,6 +56,7 @@ public class QuestionService : IQuestionService
 
         if (questionDto != null)
         {
+            questionDto.CreatedBy = _mapper.Map<ProfileResponseDto>(question.CreatedBy);
             if (question.Votes != null)
             {
                 questionDto.UpVoteCount = question.Votes.Count(v => v.IsUpVote);

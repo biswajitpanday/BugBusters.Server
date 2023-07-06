@@ -107,15 +107,7 @@ public class AuthController : BaseController
     {
         var userRoles = await _userManager.GetRolesAsync(user);
         var token = GenerateToken(user, userRoles);
-        var profileData = new
-        {
-            firstName = user.FirstName,
-            middleName = user.MiddleName,
-            lastName = user.LastName,
-            email = user.Email,
-            phoneNumber = user.PhoneNumber,
-            dateOfBirth = user.DateOfBirth
-        };
+        var profileData = _mapper.Map<ProfileResponseDto>(user);
         return Ok(new
         {
             token = new JwtSecurityTokenHandler().WriteToken(token),
