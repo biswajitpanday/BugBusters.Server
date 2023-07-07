@@ -208,7 +208,6 @@ public static class Extension
     private static void ConfigureAppServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-        builder.Services.AddTransient<IUserProfileService, UserProfileService>();
         builder.Services.AddTransient<IUserService, UserService>();
         builder.Services.AddTransient<IQuestionService, QuestionService>();
         builder.Services.AddTransient<IAnswerService, AnswerService>();
@@ -219,11 +218,9 @@ public static class Extension
     {
         builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-        builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
         builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
         builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
         builder.Services.AddScoped<IVoteRepository, VoteRepository>();
-
     }
 
     #endregion

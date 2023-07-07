@@ -3,7 +3,7 @@ using OptiOverflow.Core.Interfaces.Common;
 
 namespace OptiOverflow.Core.Dtos;
 
-public class QuestionDto : IMapFrom<Question>
+public class QuestionResponseDto : IMapFrom<Question>
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = null!;
@@ -11,7 +11,11 @@ public class QuestionDto : IMapFrom<Question>
     public Guid CreatedById { get; set; }
     public Guid LastUpdatedById { get; set; }
     public DateTime CreatedAt { get; set; }
+    public DateTime LastUpdated { get; set; }
     public int UpVoteCount { get; set; }
     public int DownVoteCount { get; set; }
-    public List<AnswerDto?>? Answers { get; set; }
+    public int AnswerCount { get; set; }
+    public required ProfileResponseDto CreatedBy { get; set; }
+    public ProfileResponseDto? LastUpdatedBy { get; set; }
+    public List<AnswerResponseDto?>? Answers { get; set; }
 }

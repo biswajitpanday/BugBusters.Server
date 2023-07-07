@@ -1,9 +1,4 @@
-﻿
-using System.Globalization;
-using OptiOverflow.Core.Helpers;
-using OptiOverflow.Core.Interfaces.Common;
-
-namespace OptiOverflow.Core.Entities;
+﻿namespace OptiOverflow.Core.Entities;
 
 public class Question: BaseEntity//, IStringSearchable
 {
@@ -14,6 +9,10 @@ public class Question: BaseEntity//, IStringSearchable
 
     public ICollection<Answer>? Answers { get; set; }
     public ICollection<Vote>? Votes { get; set; }
+
+    public ApplicationUser CreatedBy { get; set; } = null!;
+    //public ApplicationUser LastUpdatedBy { get; set; } = null!;
+
 
     // public bool Search(string searchText)
     // {

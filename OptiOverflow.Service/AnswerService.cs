@@ -18,24 +18,24 @@ public class AnswerService : IAnswerService
         _answerRepository = answerRepository;
     }
 
-    public async Task<AnswerDto> Create(AnswerCreateDto answerCreateDto, Guid userId)
+    public async Task<AnswerResponseDto> Create(AnswerCreateDto answerCreateDto, Guid userId)
     {
         var answerEntity = _mapper.Map<Answer>(answerCreateDto);
         answerEntity.QuestionId = Guid.Parse(answerCreateDto.QuestionId);
-        answerEntity.UserId = userId;
+        answerEntity.CreatedById = userId;
         await _answerRepository.AddAsync(answerEntity);
         await _answerRepository.SaveChangesAsync();
-        return _mapper.Map<AnswerDto>(answerEntity);
+        return _mapper.Map<AnswerResponseDto>(answerEntity);
     }
 
-    public async Task<AnswerDto?> Update(AnswerUpdateDto answerUpdateDto, Guid id, Guid userId)
+    public async Task<AnswerResponseDto?> Update(AnswerUpdateDto answerUpdateDto, Guid id, Guid userId)
     {
         var answerEntity = _mapper.Map<Answer>(answerUpdateDto);
         answerEntity.Id = id;
 
         await _answerRepository.UpdateAsync(answerEntity);
         await _answerRepository.SaveChangesAsync();
-        return _mapper.Map<AnswerDto>(answerEntity);
+        return _mapper.Map<AnswerResponseDto>(answerEntity);
     }
 
     public async Task Delete(Guid id)

@@ -4,5 +4,5 @@ namespace OptiOverflow.Core.Interfaces.Services;
 
 public interface IVoteService
 {
-    Task<VoteDto?> Create(VoteCreateDto vote, Guid userId);
+    Task<VoteResponseDto?> Create(VoteCreateDto vote, Guid userId);
 }
