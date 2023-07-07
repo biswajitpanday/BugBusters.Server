@@ -22,7 +22,7 @@ public class AnswerService : IAnswerService
     {
         var answerEntity = _mapper.Map<Answer>(answerCreateDto);
         answerEntity.QuestionId = Guid.Parse(answerCreateDto.QuestionId);
-        answerEntity.UserId = userId;
+        answerEntity.CreatedById = userId;
         await _answerRepository.AddAsync(answerEntity);
         await _answerRepository.SaveChangesAsync();
         return _mapper.Map<AnswerResponseDto>(answerEntity);
