@@ -10,7 +10,7 @@ public class ApplicationUser: IdentityUser<Guid>
     public DateTime? DateOfBirth { get; set; }
     public string? Address { get; set; }
 
-    public DateTime CreatedAt { get; set; }
-    public DateTime LastUpdate { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime LastUpdate { get; set; } = DateTime.UtcNow;
     public bool IsDeleted { get; set; }
 }
