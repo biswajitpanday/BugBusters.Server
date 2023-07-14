@@ -73,6 +73,8 @@ public class QuestionService : IQuestionService
                             answer.DownVoteCount = votes.Count(v => !v.IsUpVote);
                         }
                     }
+                    
+                    questionDto.Answers = questionDto.Answers?.OrderByDescending(x => x?.CreatedAt ?? default).ToList();
                 }
             }
         }
