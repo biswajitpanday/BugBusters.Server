@@ -20,6 +20,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
             .Include(x => x.Answers)
             .Include(x => x.CreatedBy)
             .AsNoTracking()
+            .OrderByDescending(x => x.CreatedAt)
             .ToListAsync();
         return questions;
     }
