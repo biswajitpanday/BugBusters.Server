@@ -20,6 +20,15 @@ public class AnswerController : BaseController
         _currentUserService = currentUserService;
     }
 
+    [HttpPut("Accept/{id:guid}")]
+    public async Task<IActionResult> Accept(Guid id)
+    {
+        var userId = _currentUserService.UserId;
+        var response = await _answerService.Accept(id, userId);
+        if(response == null) 
+            return NotFound();
+        return Ok(response);
+    }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] AnswerCreateDto answer)

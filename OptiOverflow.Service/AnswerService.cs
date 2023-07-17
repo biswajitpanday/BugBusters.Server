@@ -11,11 +11,23 @@ public class AnswerService : IAnswerService
     private readonly IMapper _mapper;
     private readonly IAnswerRepository _answerRepository;
 
-    public AnswerService(IMapper mapper,
-        IAnswerRepository answerRepository)
+    public AnswerService(IMapper mapper, IAnswerRepository answerRepository)
     {
         _mapper = mapper;
         _answerRepository = answerRepository;
+    }
+
+    public async Task<AnswerResponseDto?> Accept(Guid id, Guid userId)
+    {
+        var answerEntity = await _answerRepository.GetAsync(id);
+        if (answerEntity == null)
+            return null;
+        if (answerEntity.CreatedById == userId)
+            throw new InvalidOperationException("You can't accept your own answer!");
+        answerEntity.IsAccepted = true;
+        await _answerRepository.UpdateAsync(answerEntity);
+        await _answerRepository.SaveChangesAsync();
+        return _mapper.Map<AnswerResponseDto>(answerEntity);
     }
 
     public async Task<AnswerResponseDto> Create(AnswerCreateDto answerCreateDto, Guid userId)
