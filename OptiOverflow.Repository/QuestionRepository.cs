@@ -37,4 +37,14 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
 
         return question;
     }
+
+    public async Task<List<Question>> GetByUserId(Guid userId)
+    {
+        var questions = await Queryable
+            .Include(x => x.Votes)
+            .Where(x => x.CreatedById == userId)
+            .AsNoTracking()
+            .ToListAsync();
+        return questions;
+    }
 }

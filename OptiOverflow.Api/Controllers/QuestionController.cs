@@ -7,7 +7,7 @@ using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Api.Controllers;
 
-[Authorize(Policy= PolicyConstants.ApplicationUser)]
+// [Authorize(Policy= PolicyConstants.ApplicationUser)]
 public class QuestionController: BaseController
 {
     private readonly ILogger<QuestionController> _logger;
