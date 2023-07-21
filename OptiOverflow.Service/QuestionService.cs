@@ -40,8 +40,12 @@ public class QuestionService : IQuestionService
             question.UpVoteCount = vote.Count(v => v.IsUpVote);
             question.DownVoteCount = vote.Count(v => !v.IsUpVote);
             if (question.Answers != null)
+            {
                 question.AnswerCount = question.Answers.Count;
+                question.HasAcceptedAnswer = question.Answers.Any(x => x.IsAccepted);
+            }
             question.CreatedBy = _mapper.Map<ProfileResponseDto>(questionEntity.CreatedBy);
+            
             question.Answers = null;
         }
         return questionsDto;
