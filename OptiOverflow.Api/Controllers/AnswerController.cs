@@ -35,7 +35,7 @@ public class AnswerController : BaseController
     {
         var userId = _currentUserService.UserId;
         var result = await _answerService.Create(answer, userId);
-        return CreatedAtAction(nameof(Create), new { id = result.Id }, answer);
+        return CreatedAtAction(nameof(Create), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]

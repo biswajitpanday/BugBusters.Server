@@ -15,6 +15,7 @@ public class QuestionResponseDto : IMapFrom<Question>
     public int UpVoteCount { get; set; }
     public int DownVoteCount { get; set; }
     public int AnswerCount { get; set; }
+    public bool HasAcceptedAnswer { get; set; }
     public required ProfileResponseDto CreatedBy { get; set; }
     public ProfileResponseDto? LastUpdatedBy { get; set; }
     public List<AnswerResponseDto?>? Answers { get; set; }
