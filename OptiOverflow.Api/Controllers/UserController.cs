@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Entities;
+using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Api.Controllers
@@ -13,13 +14,24 @@ namespace OptiOverflow.Api.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
+        private readonly ICurrentUserService _currentUserService;
 
-        public UserController(ILogger<UserController> logger, UserManager<ApplicationUser> userManager,
-            IUserService userService)
+        public UserController(ILogger<UserController> logger, 
+            UserManager<ApplicationUser> userManager,
+            IUserService userService,
+            ICurrentUserService currentUserService)
         {
             _logger = logger;
             _userManager = userManager;
             _userService = userService;
+            _currentUserService = currentUserService;
+        }
+
+        [HttpGet("profile")]
+        public async Task<ActionResult> Profile()
+        {
+            var profile = await _userService.Profile(_currentUserService.UserId);
+            return Ok(profile);
         }
 
 
