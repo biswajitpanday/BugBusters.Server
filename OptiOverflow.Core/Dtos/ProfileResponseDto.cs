@@ -20,9 +20,9 @@ public class ProfileResponseDto : IMapFrom<ApplicationUser>
     private string? GetFullName()
     {
         var fullName = FirstName;
-        if (MiddleName != null)
+        if (!string.IsNullOrEmpty(MiddleName))
             fullName += $" {MiddleName}";
-        if (LastName != null)
+        if (!string.IsNullOrEmpty(LastName))
             fullName += $" {LastName}"; ;
         return fullName;
     }
