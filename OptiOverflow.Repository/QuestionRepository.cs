@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Cryptography.X509Certificates;
+using Microsoft.EntityFrameworkCore;
+using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
 using OptiOverflow.Repository.Base;
@@ -23,6 +25,24 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
             .OrderByDescending(x => x.CreatedAt)
             .ToListAsync();
         return questions;
+    }
+
+    public async Task<(List<Question> questions, int totalPages)> GetPagedResults(PagedRequest pagedRequest)
+    {
+        var totalDataCount = await Queryable.CountAsync();
+        var totalPageCount = (int)Math.Ceiling(totalDataCount / (double)pagedRequest.PageSize);
+
+        var questions = await Queryable
+            .Where(x => !x.IsDeleted)
+            .OrderByDescending(x => x.CreatedAt)
+            .Skip((pagedRequest.Page - 1) * pagedRequest.PageSize)
+            .Take(pagedRequest.PageSize)
+            .Include(x => x.Votes)
+            .Include(x => x.Answers)
+            .Include(x => x.CreatedBy)
+            .AsNoTracking()
+            .ToListAsync();
+        return (questions, totalPageCount);
     }
 
     public async Task<Question?> GetById(Guid id)

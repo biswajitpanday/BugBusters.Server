@@ -31,6 +31,15 @@ public class QuestionController: BaseController
         return Ok(questions);
     }
 
+    [HttpGet("paginated")]
+    public async Task<ActionResult> Get([FromQuery] PagedRequest pagedRequest)
+    {
+        var questions = await _questionService.GetAll(pagedRequest);
+        if (questions == null)
+            return NotFound();
+        return Ok(questions);
+    }
+
     [HttpGet("{id:guid}")]
     public async Task<ActionResult> Get(Guid id)
     {
@@ -45,7 +54,7 @@ public class QuestionController: BaseController
     {
         var userId = _currentUserService.UserId;
         var result = await _questionService.Create(question, userId);
-        return CreatedAtAction(nameof(Create), new { id = result.Id }, question);
+        return CreatedAtAction(nameof(Create), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
