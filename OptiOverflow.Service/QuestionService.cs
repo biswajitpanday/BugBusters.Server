@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
@@ -31,26 +30,23 @@ public class QuestionService : IQuestionService
         var questions = await _questionRepository.GetAll();
         if (questions.Count <= 0)
             return null;
-        var questionsDto = _mapper.Map<List<QuestionResponseDto>>(questions);
-        foreach (var question in questionsDto)
-        {
-            var questionEntity = questions.First(x => x.Id == question.Id);
-            var vote = questionEntity.Votes;
-            if (vote == null) continue;
-            question.UpVoteCount = vote.Count(v => v.IsUpVote);
-            question.DownVoteCount = vote.Count(v => !v.IsUpVote);
-            if (question.Answers != null)
-            {
-                question.AnswerCount = question.Answers.Count;
-                question.HasAcceptedAnswer = question.Answers.Any(x => x.IsAccepted);
-            }
-            question.CreatedBy = _mapper.Map<ProfileResponseDto>(questionEntity.CreatedBy);
-            
-            question.Answers = null;
-        }
+        var questionsDto = HandleQuestionListResponse(questions);
         return questionsDto;
     }
 
+    public async Task<PagedResponse<List<QuestionResponseDto>>?> GetAll(PagedRequest pagedRequest)
+    {
+        var (questions, totalPages) = await _questionRepository.GetPagedResults(pagedRequest);
+        if (questions.Count <= 0)
+            return null;
+        var questionsDto = HandleQuestionListResponse(questions);
+        return new PagedResponse<List<QuestionResponseDto>>
+        {
+            Items = questionsDto,
+            TotalPages = totalPages
+        };
+    }
+    
     public async Task<QuestionResponseDto?> GetById(Guid id)
     {
         var question = await _questionRepository.GetById(id);
@@ -111,4 +107,31 @@ public class QuestionService : IQuestionService
         await _questionRepository.SoftDeleteAsync(id);
         await _questionRepository.SaveChangesAsync();
     }
+
+    #region Private Methods
+
+    private List<QuestionResponseDto> HandleQuestionListResponse(List<Question> questions)
+    {
+        var questionsDto = _mapper.Map<List<QuestionResponseDto>>(questions);
+        foreach (var question in questionsDto)
+        {
+            var questionEntity = questions.First(x => x.Id == question.Id);
+            var vote = questionEntity.Votes;
+            if (vote == null) continue;
+            question.UpVoteCount = vote.Count(v => v.IsUpVote);
+            question.DownVoteCount = vote.Count(v => !v.IsUpVote);
+            if (question.Answers != null)
+            {
+                question.AnswerCount = question.Answers.Count;
+                question.HasAcceptedAnswer = question.Answers.Any(x => x.IsAccepted);
+            }
+
+            question.CreatedBy = _mapper.Map<ProfileResponseDto>(questionEntity.CreatedBy);
+            question.Answers = null;
+        }
+
+        return questionsDto;
+    }
+
+    #endregion
 }
