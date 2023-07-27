@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Repositories;
@@ -35,7 +34,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
         var questions = await Queryable
             .Where(x => !x.IsDeleted)
             .OrderByDescending(x => x.CreatedAt)
-            .Skip((pagedRequest.Page - 1) * pagedRequest.PageSize)
+            .Skip((pagedRequest.Page) * pagedRequest.PageSize)
             .Take(pagedRequest.PageSize)
             .Include(x => x.Votes)
             .Include(x => x.Answers)
