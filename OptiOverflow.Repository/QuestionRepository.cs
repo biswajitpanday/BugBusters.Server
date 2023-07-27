@@ -26,7 +26,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
         return questions;
     }
 
-    public async Task<(List<Question> questions, int totalPages)> GetPagedResults(PagedRequest pagedRequest)
+    public async Task<(List<Question> questions, int totalPages, long itemCount)> GetPagedResults(PagedRequest pagedRequest)
     {
         var totalDataCount = await Queryable.CountAsync();
         var totalPageCount = (int)Math.Ceiling(totalDataCount / (double)pagedRequest.PageSize);
@@ -41,7 +41,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
             .Include(x => x.CreatedBy)
             .AsNoTracking()
             .ToListAsync();
-        return (questions, totalPageCount);
+        return (questions, totalPageCount, totalDataCount);
     }
 
     public async Task<Question?> GetById(Guid id)

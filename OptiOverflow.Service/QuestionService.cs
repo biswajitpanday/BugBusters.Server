@@ -36,14 +36,15 @@ public class QuestionService : IQuestionService
 
     public async Task<PagedResponse<List<QuestionResponseDto>>?> GetAll(PagedRequest pagedRequest)
     {
-        var (questions, totalPages) = await _questionRepository.GetPagedResults(pagedRequest);
+        var (questions, totalPages, itemCount) = await _questionRepository.GetPagedResults(pagedRequest);
         if (questions.Count <= 0)
             return null;
         var questionsDto = HandleQuestionListResponse(questions);
         return new PagedResponse<List<QuestionResponseDto>>
         {
             Items = questionsDto,
-            TotalPages = totalPages
+            TotalPages = totalPages,
+            ItemCount = itemCount
         };
     }
     
