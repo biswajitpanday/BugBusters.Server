@@ -8,5 +8,5 @@ public interface IQuestionRepository : IBaseRepository<Question>
     Task<List<Question>> GetAll();
     Task<List<Question>> GetByUserId(Guid userId);
     Task<Question?> GetById(Guid id);
-    Task<(List<Question> questions, int totalPages)> GetPagedResults(PagedRequest pagedRequest);
+    Task<(List<Question> questions, int totalPages, long itemCount)> GetPagedResults(PagedRequest pagedRequest);
 }

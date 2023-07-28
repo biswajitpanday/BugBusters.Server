@@ -26,22 +26,33 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
         return questions;
     }
 
-    public async Task<(List<Question> questions, int totalPages)> GetPagedResults(PagedRequest pagedRequest)
+    public async Task<(List<Question> questions, int totalPages, long itemCount)> GetPagedResults(PagedRequest pagedRequest)
     {
-        var totalDataCount = await Queryable.CountAsync();
-        var totalPageCount = (int)Math.Ceiling(totalDataCount / (double)pagedRequest.PageSize);
+        var questions = Queryable.Where(x => !x.IsDeleted);
+        var totalDataCount = await questions.CountAsync();
 
-        var questions = await Queryable
-            .Where(x => !x.IsDeleted)
-            .OrderByDescending(x => x.CreatedAt)
-            .Skip((pagedRequest.Page) * pagedRequest.PageSize)
-            .Take(pagedRequest.PageSize)
-            .Include(x => x.Votes)
-            .Include(x => x.Answers)
-            .Include(x => x.CreatedBy)
-            .AsNoTracking()
-            .ToListAsync();
-        return (questions, totalPageCount);
+        if (!string.IsNullOrEmpty(pagedRequest.Query))
+        {
+            questions = questions.Where(
+                x => x.Title.Contains(pagedRequest.Query) || x.Body.Contains(pagedRequest.Query));
+            totalDataCount = await questions.CountAsync();
+        }
+        else
+        {
+            questions = questions
+                .OrderByDescending(x => x.CreatedAt)
+                .Skip((pagedRequest.Page) * pagedRequest.PageSize)
+                .Take(pagedRequest.PageSize)
+                .Include(x => x.Votes)
+                .Include(x => x.Answers)
+                .Include(x => x.CreatedBy)
+                .AsNoTracking();
+        }
+
+        var pagedQuestions = await questions.ToListAsync();
+
+        var totalPageCount = (int)Math.Ceiling(totalDataCount / (double)pagedRequest.PageSize);
+        return (pagedQuestions, totalPageCount, totalDataCount);
     }
 
     public async Task<Question?> GetById(Guid id)
