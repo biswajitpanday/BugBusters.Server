@@ -37,17 +37,15 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
                 x => x.Title.Contains(pagedRequest.Query) || x.Body.Contains(pagedRequest.Query));
             totalDataCount = await questions.CountAsync();
         }
-        else
-        {
-            questions = questions
-                .OrderByDescending(x => x.CreatedAt)
-                .Skip((pagedRequest.Page) * pagedRequest.PageSize)
-                .Take(pagedRequest.PageSize)
-                .Include(x => x.Votes)
-                .Include(x => x.Answers)
-                .Include(x => x.CreatedBy)
-                .AsNoTracking();
-        }
+
+        questions = questions
+            .OrderByDescending(x => x.CreatedAt)
+            .Skip((pagedRequest.Page) * pagedRequest.PageSize)
+            .Take(pagedRequest.PageSize)
+            .Include(x => x.Votes)
+            .Include(x => x.Answers)
+            .Include(x => x.CreatedBy)
+            .AsNoTracking();
 
         var pagedQuestions = await questions.ToListAsync();
 
