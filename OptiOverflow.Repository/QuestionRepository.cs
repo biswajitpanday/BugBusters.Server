@@ -34,7 +34,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
         if (!string.IsNullOrEmpty(pagedRequest.Query))
         {
             questions = questions.Where(
-                x => x.Title.Contains(pagedRequest.Query) || x.Body.Contains(pagedRequest.Query));
+                x => x.Title.ToLower().Contains(pagedRequest.Query.ToLower()) || x.Body.ToLower().Contains(pagedRequest.Query.ToLower()));
             totalDataCount = await questions.CountAsync();
         }
 
