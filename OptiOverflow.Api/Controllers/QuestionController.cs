@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using OptiOverflow.Core.Constants;
+﻿using Microsoft.AspNetCore.Mvc;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
@@ -21,15 +19,6 @@ public class QuestionController: BaseController
         _questionService = questionService;
         _currentUserService = currentUserService;
     }
-
-    // [HttpGet]
-    // public async Task<ActionResult> Get()
-    // {
-    //     var questions = await _questionService.GetAll();
-    //     if (questions == null)
-    //         return NotFound();
-    //     return Ok(questions);
-    // }
 
     [HttpGet]
     public async Task<ActionResult> Get([FromQuery] PagedRequest pagedRequest)
