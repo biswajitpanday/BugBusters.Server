@@ -13,18 +13,18 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
     {
     }
 
-    public async Task<List<Question>> GetAll()
-    {
-        var questions = await Queryable
-            .Where(x => !x.IsDeleted)
-            .Include(x => x.Votes)
-            .Include(x => x.Answers)
-            .Include(x => x.CreatedBy)
-            .AsNoTracking()
-            .OrderByDescending(x => x.CreatedAt)
-            .ToListAsync();
-        return questions;
-    }
+    // public async Task<List<Question>> GetAll()
+    // {
+    //     var questions = await Queryable
+    //         .Where(x => !x.IsDeleted)
+    //         .Include(x => x.Votes)
+    //         .Include(x => x.Answers)
+    //         .Include(x => x.CreatedBy)
+    //         .AsNoTracking()
+    //         .OrderByDescending(x => x.CreatedAt)
+    //         .ToListAsync();
+    //     return questions;
+    // }
 
     public async Task<(List<Question> questions, int totalPages, long itemCount)> GetPagedResults(PagedRequest pagedRequest)
     {

@@ -25,14 +25,14 @@ public class QuestionService : IQuestionService
         _userManager = userManager;
     }
 
-    public async Task<List<QuestionResponseDto>?> GetAll()
-    {
-        var questions = await _questionRepository.GetAll();
-        if (questions.Count <= 0)
-            return null;
-        var questionsDto = HandleQuestionListResponse(questions);
-        return questionsDto;
-    }
+    // public async Task<List<QuestionResponseDto>?> GetAll()
+    // {
+    //     var questions = await _questionRepository.GetAll();
+    //     if (questions.Count <= 0)
+    //         return null;
+    //     var questionsDto = HandleQuestionListResponse(questions);
+    //     return questionsDto;
+    // }
 
     public async Task<PagedResponse<List<QuestionResponseDto>>?> GetAll(PagedRequest pagedRequest)
     {

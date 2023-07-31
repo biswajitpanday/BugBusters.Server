@@ -22,16 +22,16 @@ public class QuestionController: BaseController
         _currentUserService = currentUserService;
     }
 
-    [HttpGet]
-    public async Task<ActionResult> Get()
-    {
-        var questions = await _questionService.GetAll();
-        if (questions == null)
-            return NotFound();
-        return Ok(questions);
-    }
+    // [HttpGet]
+    // public async Task<ActionResult> Get()
+    // {
+    //     var questions = await _questionService.GetAll();
+    //     if (questions == null)
+    //         return NotFound();
+    //     return Ok(questions);
+    // }
 
-    [HttpGet("paginated")]
+    [HttpGet]
     public async Task<ActionResult> Get([FromQuery] PagedRequest pagedRequest)
     {
         var questions = await _questionService.GetAll(pagedRequest);

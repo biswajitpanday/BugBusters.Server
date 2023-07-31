@@ -4,7 +4,7 @@ namespace OptiOverflow.Core.Interfaces.Services;
 
 public interface IQuestionService
 {
-    Task<List<QuestionResponseDto>?> GetAll();
+    //Task<List<QuestionResponseDto>?> GetAll();
     Task<PagedResponse<List<QuestionResponseDto>>?> GetAll(PagedRequest pagedRequest);
     Task<QuestionResponseDto?> GetById(Guid id);
     Task<QuestionResponseDto> Create(QuestionCreateDto question, Guid userId);
