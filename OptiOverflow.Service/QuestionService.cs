@@ -38,10 +38,10 @@ public class QuestionService : IQuestionService
             ItemCount = itemCount
         };
     }
-    
-    public async Task<QuestionResponseDto?> GetById(Guid id)
+
+    public async Task<QuestionResponseDto?> GetById(Guid id, PagedRequest pagedRequest)
     {
-        var question = await _questionRepository.GetById(id);
+        var question = await _questionRepository.GetById(id, pagedRequest);
         if (question == null)
             return null;
         var questionDto = _mapper.Map<QuestionResponseDto?>(question);
@@ -53,20 +53,39 @@ public class QuestionService : IQuestionService
             {
                 questionDto.UpVoteCount = question.Votes.Count(v => v.IsUpVote);
                 questionDto.DownVoteCount = question.Votes.Count(v => !v.IsUpVote);
-                if (question.Answers != null && questionDto.Answers != null)
+                if (question.Answers != null && question.Answers.Any())
                 {
-                    foreach (var answer in questionDto.Answers)
+                    var totalAnswerCount = question.Answers.Count;
+                    var pagedAnswers = question.Answers;
+                    if (!string.IsNullOrEmpty(pagedRequest.Query))
                     {
-                        if (answer != null)
+                        pagedAnswers = pagedAnswers.Where(x => x.Body.ToLower().Contains(pagedRequest.Query.ToLower())).ToList();
+                        totalAnswerCount = pagedAnswers.Count;
+                    }
+
+                    pagedAnswers = pagedAnswers
+                        .Skip((pagedRequest.Page) * pagedRequest.PageSize)
+                        .Take(pagedRequest.PageSize).ToList();
+                    var totalPageCount = (int)Math.Ceiling(totalAnswerCount / (double)pagedRequest.PageSize);
+                    
+                    if (questionDto is { Answers: not null })
+                    {
+                        questionDto.Answers = _mapper.Map<List<AnswerResponseDto>>(pagedAnswers);
+                        foreach (var answer in questionDto.Answers)
                         {
                             var votes = question.Answers.First(x => x.Id == answer.Id).Votes;
                             if (votes == null) continue;
                             answer.UpVoteCount = votes.Count(v => v.IsUpVote);
                             answer.DownVoteCount = votes.Count(v => !v.IsUpVote);
                         }
+
+                        questionDto.PagedAnswers = new PagedResponse<List<AnswerResponseDto>?>
+                        {
+                            Items = questionDto.Answers.OrderByDescending(x => x?.CreatedAt ?? default).ToList(),
+                            ItemCount = totalAnswerCount,
+                            TotalPages = totalPageCount
+                        };
                     }
-                    
-                    questionDto.Answers = questionDto.Answers?.OrderByDescending(x => x?.CreatedAt ?? default).ToList();
                 }
             }
         }

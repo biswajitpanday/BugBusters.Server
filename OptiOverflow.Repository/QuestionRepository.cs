@@ -40,7 +40,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
         return (pagedQuestions, totalPageCount, totalDataCount);
     }
 
-    public async Task<Question?> GetById(Guid id)
+    public async Task<Question?> GetById(Guid id, PagedRequest pagedRequest)
     {
         var question = await Queryable
             .Include(x => x.Votes)
@@ -49,7 +49,6 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
             .Include(x => x.Answers).ThenInclude(x => x.Votes)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
-
         return question;
     }
 

@@ -30,9 +30,9 @@ public class QuestionController: BaseController
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult> Get(Guid id)
+    public async Task<ActionResult> Get(Guid id, [FromQuery] PagedRequest pagedRequest)
     {
-        var question = await _questionService.GetById(id);
+        var question = await _questionService.GetById(id, pagedRequest);
         if (question == null)
             return NotFound();
         return Ok(question);
