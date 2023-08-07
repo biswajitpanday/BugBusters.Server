@@ -13,19 +13,6 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
     {
     }
 
-    public async Task<List<Question>> GetAll()
-    {
-        var questions = await Queryable
-            .Where(x => !x.IsDeleted)
-            .Include(x => x.Votes)
-            .Include(x => x.Answers)
-            .Include(x => x.CreatedBy)
-            .AsNoTracking()
-            .OrderByDescending(x => x.CreatedAt)
-            .ToListAsync();
-        return questions;
-    }
-
     public async Task<(List<Question> questions, int totalPages, long itemCount)> GetPagedResults(PagedRequest pagedRequest)
     {
         var questions = Queryable.Where(x => !x.IsDeleted);
@@ -34,20 +21,18 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
         if (!string.IsNullOrEmpty(pagedRequest.Query))
         {
             questions = questions.Where(
-                x => x.Title.Contains(pagedRequest.Query) || x.Body.Contains(pagedRequest.Query));
+                x => x.Title.ToLower().Contains(pagedRequest.Query.ToLower()) || x.Body.ToLower().Contains(pagedRequest.Query.ToLower()));
             totalDataCount = await questions.CountAsync();
         }
-        else
-        {
-            questions = questions
-                .OrderByDescending(x => x.CreatedAt)
-                .Skip((pagedRequest.Page) * pagedRequest.PageSize)
-                .Take(pagedRequest.PageSize)
-                .Include(x => x.Votes)
-                .Include(x => x.Answers)
-                .Include(x => x.CreatedBy)
-                .AsNoTracking();
-        }
+
+        questions = questions
+            .OrderByDescending(x => x.CreatedAt)
+            .Skip((pagedRequest.Page) * pagedRequest.PageSize)
+            .Take(pagedRequest.PageSize)
+            .Include(x => x.Votes)
+            .Include(x => x.Answers)
+            .Include(x => x.CreatedBy)
+            .AsNoTracking();
 
         var pagedQuestions = await questions.ToListAsync();
 
@@ -55,7 +40,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
         return (pagedQuestions, totalPageCount, totalDataCount);
     }
 
-    public async Task<Question?> GetById(Guid id)
+    public async Task<Question?> GetById(Guid id, PagedRequest pagedRequest)
     {
         var question = await Queryable
             .Include(x => x.Votes)
@@ -64,7 +49,6 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
             .Include(x => x.Answers).ThenInclude(x => x.Votes)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
-
         return question;
     }
 

@@ -1,5 +1,6 @@
 ﻿using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Common;
+using System.Text.Json.Serialization;
 
 namespace OptiOverflow.Core.Dtos;
 
@@ -18,5 +19,7 @@ public class QuestionResponseDto : IMapFrom<Question>
     public bool HasAcceptedAnswer { get; set; }
     public required ProfileResponseDto CreatedBy { get; set; }
     public ProfileResponseDto? LastUpdatedBy { get; set; }
-    public List<AnswerResponseDto?>? Answers { get; set; }
+    [JsonIgnore]
+    public List<AnswerResponseDto>? Answers { get; set; }
+    public PagedResponse<List<AnswerResponseDto>?>? PagedAnswers { get; set; }
 }

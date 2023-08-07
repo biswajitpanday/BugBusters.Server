@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using OptiOverflow.Core.Constants;
+﻿using Microsoft.AspNetCore.Mvc;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
@@ -23,15 +21,6 @@ public class QuestionController: BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult> Get()
-    {
-        var questions = await _questionService.GetAll();
-        if (questions == null)
-            return NotFound();
-        return Ok(questions);
-    }
-
-    [HttpGet("paginated")]
     public async Task<ActionResult> Get([FromQuery] PagedRequest pagedRequest)
     {
         var questions = await _questionService.GetAll(pagedRequest);
@@ -41,9 +30,9 @@ public class QuestionController: BaseController
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult> Get(Guid id)
+    public async Task<ActionResult> Get(Guid id, [FromQuery] PagedRequest pagedRequest)
     {
-        var question = await _questionService.GetById(id);
+        var question = await _questionService.GetById(id, pagedRequest);
         if (question == null)
             return NotFound();
         return Ok(question);
