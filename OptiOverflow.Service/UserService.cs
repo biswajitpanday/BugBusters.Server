@@ -67,6 +67,18 @@ public class UserService : IUserService
         var askedQuestions = await _questionRepository.GetByUserId(applicationUser.Id);
         var userResponseDto = _mapper.Map<UserResponseDto>(applicationUser);
         userResponseDto.Questions = _mapper.Map<List<QuestionResponseDto>>(askedQuestions);
+
+        foreach (var askedQuestion in askedQuestions)
+        {
+            if (askedQuestion.Votes != null)
+            {
+                userResponseDto.Questions.First(x => x.Id == askedQuestion.Id).UpVoteCount = askedQuestion.Votes.Count(v => v.IsUpVote);
+                userResponseDto.Questions.First(x => x.Id == askedQuestion.Id).DownVoteCount = askedQuestion.Votes.Count(v => !v.IsUpVote);
+            }
+        }
+        
+
+        
         return userResponseDto;
     }
 
