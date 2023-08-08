@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OptiOverflow.Core.Constants;
+using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
@@ -34,6 +35,14 @@ public class UserController : BaseController
         return Ok(profile);
     }
 
+    [HttpPut("updateProfile")]
+    public async Task<ActionResult> UpdateProfile(ProfileUpdateDto profileResponseDto)
+    {
+        var profile = await _userService.UpdateProfile(profileResponseDto, _currentUserService.UserId);
+        if (profile == null)
+            return NotFound();
+        return Ok(profile);
+    }
 
     [HttpGet]
     [Authorize(Policy = PolicyConstants.ApplicationAdmin)]
