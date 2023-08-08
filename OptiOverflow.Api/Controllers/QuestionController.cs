@@ -1,21 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Api.Controllers;
 
-// [Authorize(Policy= PolicyConstants.ApplicationUser)]
+[Authorize]
 public class QuestionController: BaseController
 {
-    private readonly ILogger<QuestionController> _logger;
     private readonly IQuestionService _questionService;
     private readonly ICurrentUserService _currentUserService;
 
-    public QuestionController(ILogger<QuestionController> logger, 
-        IQuestionService questionService, ICurrentUserService currentUserService)
+    public QuestionController(IQuestionService questionService, ICurrentUserService currentUserService)
     {
-        _logger = logger;
         _questionService = questionService;
         _currentUserService = currentUserService;
     }

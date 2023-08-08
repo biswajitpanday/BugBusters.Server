@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Api.Controllers;
 
+[Authorize]
 public class VoteController : BaseController
 {
     private readonly ILogger<VoteController> _logger;
@@ -23,7 +25,6 @@ public class VoteController : BaseController
     {
         var result = await _voteService.Create(vote, _currentUserService.UserId);
         if (result == null)
-            //return BadRequest("Vote is already given by you!");
             return Conflict();
         return CreatedAtAction(nameof(Create), new { id = result.Id }, vote);
     }
