@@ -36,9 +36,9 @@ public class UserController : BaseController
     }
 
     [HttpPut("updateProfile")]
-    public async Task<ActionResult> UpdateProfile(ProfileUpdateDto profileResponseDto)
+    public async Task<ActionResult> UpdateProfile(ProfileUpdateDto profileUpdateDto)
     {
-        var profile = await _userService.UpdateProfile(profileResponseDto, _currentUserService.UserId);
+        var profile = await _userService.UpdateProfile(profileUpdateDto, _currentUserService.UserId);
         if (profile == null)
             return NotFound();
         return Ok(profile);
