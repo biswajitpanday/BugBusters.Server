@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OptiOverflow.Core.Dtos;
@@ -67,5 +68,23 @@ public class UserService : IUserService
         var userResponseDto = _mapper.Map<UserResponseDto>(applicationUser);
         userResponseDto.Questions = _mapper.Map<List<QuestionResponseDto>>(askedQuestions);
         return userResponseDto;
+    }
+
+    public async Task<ProfileResponseDto?> UpdateProfile(ProfileUpdateDto profileResponseDto, Guid userId)
+    {
+        var existingProfile = await _userManager.FindByIdAsync(userId.ToString());
+        if(existingProfile == null)
+            return null;
+
+        existingProfile.FirstName = profileResponseDto.FirstName;
+        existingProfile.MiddleName = profileResponseDto.MiddleName;
+        existingProfile.LastName = profileResponseDto.LastName;
+        existingProfile.DateOfBirth = profileResponseDto.DateOfBirth;
+        existingProfile.Address =  profileResponseDto.Address;
+        existingProfile.PhoneNumber = profileResponseDto.PhoneNumber;
+        existingProfile.LastUpdate = DateTime.UtcNow;
+
+        var result = await _userManager.UpdateAsync(existingProfile);
+        return result.Succeeded ? _mapper.Map<ProfileResponseDto>(existingProfile) : null;
     }
 }
