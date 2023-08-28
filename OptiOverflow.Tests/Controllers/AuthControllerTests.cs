@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -16,17 +13,12 @@ namespace OptiOverflow.Tests.Controllers;
 [TestFixture]
 public class AuthControllerTests
 {
-    private const string AuthBaseUrl = $"{TestUtility.BaseUrl}Auth/";
-
     private AuthController _authController;
     private Mock<ILogger<AuthController>> _mockLogger;
     private Mock<IMapper> _mockMapper;
     private Mock<UserManager<ApplicationUser>> _mockUserManager;
     private Mock<RoleManager<IdentityRole<Guid>>> _mockRoleManager;
     private Mock<IConfiguration> _mockConfiguration;
-
-    
-    private HttpClient _httpClient;
 
     [SetUp]
     public void Setup()
@@ -37,8 +29,6 @@ public class AuthControllerTests
         _mockRoleManager = new Mock<RoleManager<IdentityRole<Guid>>>(Mock.Of<IRoleStore<IdentityRole<Guid>>>(), null, null, null, null);
         _mockConfiguration = new Mock<IConfiguration>();
 
-        _httpClient = new HttpClient();
-
         _authController = new AuthController(
             _mockLogger.Object, 
             _mockMapper.Object, 
@@ -46,46 +36,7 @@ public class AuthControllerTests
             _mockRoleManager.Object, 
             _mockConfiguration.Object);
     }
-
-    //[Test]
-    //public async Task CanLoginWithValidCredentials()
-    //{
-    //    // Arrange
-    //    var loginDto = new LoginDto
-    //    {
-    //        Email = "admin001@example.com",
-    //        Password = "123456"
-    //    };
-
-    //    // Act
-    //    var request = new HttpRequestMessage(HttpMethod.Post, $"{AuthBaseUrl}Login");
-    //    request.Content = JsonContent.Create(loginDto);
-    //    var response = await _httpClient.SendAsync(request);
-
-    //    // Assert
-    //    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-    //}
-
-    //[Test]
-    //public async Task CannotLoginWithInvalidCredentials()
-    //{
-    //    // Arrange
-    //    var loginDto = new LoginDto
-    //    {
-    //        Email = "invalid@example.com",
-    //        Password = "invalid"
-    //    };
-
-    //    // Act
-    //    var request = new HttpRequestMessage(HttpMethod.Post, $"{AuthBaseUrl}Login");
-    //    request.Content = JsonContent.Create(loginDto);
-    //    var response = await _httpClient.SendAsync(request);
-
-    //    // Assert
-    //    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
-    //}
-
-
+    
     [Test]
     public async Task Login_ShouldReturnSuccess()
     {

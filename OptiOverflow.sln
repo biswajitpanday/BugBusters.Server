@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{011E2FE9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptiOverflow.UnitTest", "OptiOverflow.UnitTest\OptiOverflow.UnitTest.csproj", "{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptiOverflow.IntegrationTest", "OptiOverflow.IntegrationTest\OptiOverflow.IntegrationTest.csproj", "{9174ABA9-4531-4E14-AC3C-43912D16253E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,12 +49,17 @@ Global
 		{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9174ABA9-4531-4E14-AC3C-43912D16253E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9174ABA9-4531-4E14-AC3C-43912D16253E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9174ABA9-4531-4E14-AC3C-43912D16253E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9174ABA9-4531-4E14-AC3C-43912D16253E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C} = {011E2FE9-3013-4762-927C-E2412E9BCBE5}
+		{9174ABA9-4531-4E14-AC3C-43912D16253E} = {011E2FE9-3013-4762-927C-E2412E9BCBE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BCBE3E5D-E7F3-46F1-94E8-F0968A0AD1C7}

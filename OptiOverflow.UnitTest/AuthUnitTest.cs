@@ -2,7 +2,7 @@
 
 
 [TestFixture]
-public class AuthTest
+public class AuthUnitTest
 {
     [SetUp]
     public void Setup()
