@@ -25,7 +25,7 @@ public class QuestionService : IQuestionService
         _userManager = userManager;
     }
 
-    public async Task<PagedResponse<List<QuestionResponseDto>>?> GetAll(PagedRequest pagedRequest)
+    public async Task<PagedResponse<List<QuestionResponseDto>>?>? GetAll(PagedRequest pagedRequest)
     {
         var (questions, totalPages, itemCount) = await _questionRepository.GetPagedResults(pagedRequest);
         if (questions.Count <= 0)
