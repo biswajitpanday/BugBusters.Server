@@ -11,13 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.Repository", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.Service", "OptiOverflow.Service\OptiOverflow.Service.csproj", "{C6CBAE49-4671-4812-9A03-5751C7C89420}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.Tests", "OptiOverflow.Tests\OptiOverflow.Tests.csproj", "{124FB839-EA09-402B-A8BA-16A8182698FD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{011E2FE9-3013-4762-927C-E2412E9BCBE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptiOverflow.UnitTest", "OptiOverflow.UnitTest\OptiOverflow.UnitTest.csproj", "{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.UnitTest", "OptiOverflow.UnitTest\OptiOverflow.UnitTest.csproj", "{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptiOverflow.IntegrationTest", "OptiOverflow.IntegrationTest\OptiOverflow.IntegrationTest.csproj", "{9174ABA9-4531-4E14-AC3C-43912D16253E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.IntegrationTest", "OptiOverflow.IntegrationTest\OptiOverflow.IntegrationTest.csproj", "{9174ABA9-4531-4E14-AC3C-43912D16253E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{C6CBAE49-4671-4812-9A03-5751C7C89420}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6CBAE49-4671-4812-9A03-5751C7C89420}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6CBAE49-4671-4812-9A03-5751C7C89420}.Release|Any CPU.Build.0 = Release|Any CPU
-		{124FB839-EA09-402B-A8BA-16A8182698FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{124FB839-EA09-402B-A8BA-16A8182698FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{124FB839-EA09-402B-A8BA-16A8182698FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{124FB839-EA09-402B-A8BA-16A8182698FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
