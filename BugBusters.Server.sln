@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.Service", "Opt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{011E2FE9-3013-4762-927C-E2412E9BCBE5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.UnitTest", "OptiOverflow.UnitTest\OptiOverflow.UnitTest.csproj", "{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BugBusters.Server.UnitTest", "OptiOverflow.UnitTest\BugBusters.Server.UnitTest.csproj", "{E15DD65B-AE23-4FF1-9642-C5F9F9D25E8C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.IntegrationTest", "OptiOverflow.IntegrationTest\OptiOverflow.IntegrationTest.csproj", "{9174ABA9-4531-4E14-AC3C-43912D16253E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BugBusters.Server.IntegrationTest", "OptiOverflow.IntegrationTest\BugBusters.Server.IntegrationTest.csproj", "{9174ABA9-4531-4E14-AC3C-43912D16253E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

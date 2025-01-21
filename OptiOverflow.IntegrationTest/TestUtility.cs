@@ -1,4 +1,4 @@
-﻿namespace OptiOverflow.IntegrationTest;
+﻿namespace BugBusters.Server.IntegrationTest;
 
 public class TestUtility
 {

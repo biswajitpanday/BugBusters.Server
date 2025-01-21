@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using OptiOverflow.Core.Dtos;
 
-namespace OptiOverflow.IntegrationTest
+namespace BugBusters.Server.IntegrationTest
 {
     [TestFixture]
     public class AuthIntegrationTest

@@ -9,7 +9,7 @@ using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
 
-namespace OptiOverflow.UnitTest;
+namespace BugBusters.Server.UnitTest;
 
 [TestFixture]
 public class QuestionUnitTest
@@ -38,16 +38,16 @@ public class QuestionUnitTest
 
         _questionServiceMock.Setup(x => x.GetAll(It.IsAny<PagedRequest>()))!.ReturnsAsync(new PagedResponse<List<QuestionResponseDto>>
         {
-            Items = questions.Select(x => new QuestionResponseDto { Id = x.Id, Title = x.Title, Body = x.Body, CreatedBy = new ProfileResponseDto{ Id = x.CreatedById, Email = x.CreatedBy.Email} }).ToList(),
+            Items = questions.Select(x => new QuestionResponseDto { Id = x.Id, Title = x.Title, Body = x.Body, CreatedBy = new ProfileResponseDto { Id = x.CreatedById, Email = x.CreatedBy.Email } }).ToList(),
             ItemCount = questions.Count
         });
-        
+
         // Act
         var response = await _questionControllerMock.Get(new PagedRequest { Page = 1, PageSize = 10 });
 
         // Assert
         Assert.NotNull(response);
-        Assert.That(((response as OkObjectResult)!).StatusCode, Is.EqualTo(200));
+        Assert.That((response as OkObjectResult)!.StatusCode, Is.EqualTo(200));
 
         // ~~~ToDo: Finish this Assert
         // Assert.That(content, Is.EqualTo(JsonConvert.SerializeObject(new PagedResponse<List<QuestionResponseDto>>
@@ -69,7 +69,7 @@ public class QuestionUnitTest
         var response = await _questionControllerMock.Get(new PagedRequest { Page = 1, PageSize = 10 });
 
         // Assert
-        var statusCode = ((response as ObjectResult)!).StatusCode;
+        var statusCode = (response as ObjectResult)!.StatusCode;
         Assert.That(statusCode, Is.EqualTo(404));
     }
 

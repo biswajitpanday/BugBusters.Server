@@ -12,7 +12,7 @@ using OptiOverflow.Api.Controllers;
 using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Entities;
 
-namespace OptiOverflow.UnitTest;
+namespace BugBusters.Server.UnitTest;
 
 
 [TestFixture]
@@ -28,7 +28,7 @@ public class AuthUnitTest
     [SetUp]
     public void Setup()
     {
-        var applicationUser = new ApplicationUser { Id = Guid.Parse("67497637-3A50-4FD8-9C9D-08DB6EC33FB2"), Email = "admin001@example.com", UserName = "admin001"};
+        var applicationUser = new ApplicationUser { Id = Guid.Parse("67497637-3A50-4FD8-9C9D-08DB6EC33FB2"), Email = "admin001@example.com", UserName = "admin001" };
         var role = new IdentityRole<Guid> { Id = Guid.NewGuid(), Name = "Admin" };
 
         _mockLogger = new Mock<ILogger<AuthController>>();
