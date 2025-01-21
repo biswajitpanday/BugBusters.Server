@@ -5,7 +5,7 @@ using BugBusters.Server.Core.Interfaces.Repositories;
 using BugBusters.Server.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 
-namespace OptiOverflow.Service;
+namespace BugBusters.Server.Service;
 
 public class QuestionService : IQuestionService
 {
@@ -64,10 +64,10 @@ public class QuestionService : IQuestionService
                     }
 
                     pagedAnswers = pagedAnswers
-                        .Skip((pagedRequest.Page) * pagedRequest.PageSize)
+                        .Skip(pagedRequest.Page * pagedRequest.PageSize)
                         .Take(pagedRequest.PageSize).ToList();
                     var totalPageCount = (int)Math.Ceiling(totalAnswerCount / (double)pagedRequest.PageSize);
-                    
+
                     if (questionDto is { Answers: not null })
                     {
                         questionDto.Answers = _mapper.Map<List<AnswerResponseDto>>(pagedAnswers);

@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using BugBusters.Server.Core.Interfaces.Common;
 
-namespace OptiOverflow.Service;
+namespace BugBusters.Server.Service;
 
 public class CurrentUserService : ICurrentUserService
 {
@@ -20,7 +20,7 @@ public class CurrentUserService : ICurrentUserService
 
 
     private List<Claim> _claims;
-    
+
     public Guid UserId
     {
         get
@@ -29,7 +29,7 @@ public class CurrentUserService : ICurrentUserService
             return new Guid(userId);
         }
     }
-    
+
     public string Role
     {
         get
@@ -38,12 +38,12 @@ public class CurrentUserService : ICurrentUserService
             return role.ToLower();
         }
     }
-    
+
     public void SetClaims(IEnumerable<Claim> claims)
     {
         _claims = claims.ToList();
     }
-    
+
     private string GetClaim(string type)
     {
         return _claims.SingleOrDefault(c => c.Type == type)?.Value;

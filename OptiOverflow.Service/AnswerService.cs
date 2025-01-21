@@ -4,7 +4,7 @@ using BugBusters.Server.Core.Entities;
 using BugBusters.Server.Core.Interfaces.Repositories;
 using BugBusters.Server.Core.Interfaces.Services;
 
-namespace OptiOverflow.Service;
+namespace BugBusters.Server.Service;
 
 public class AnswerService : IAnswerService
 {

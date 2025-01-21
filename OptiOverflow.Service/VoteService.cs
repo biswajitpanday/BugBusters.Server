@@ -6,7 +6,7 @@ using BugBusters.Server.Core.Interfaces.Repositories;
 using BugBusters.Server.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 
-namespace OptiOverflow.Service;
+namespace BugBusters.Server.Service;
 
 public class VoteService : IVoteService
 {
@@ -15,8 +15,8 @@ public class VoteService : IVoteService
     private readonly ICurrentUserService _currentUserService;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public VoteService(IMapper mapper, 
-        IVoteRepository voteRepository, 
+    public VoteService(IMapper mapper,
+        IVoteRepository voteRepository,
         ICurrentUserService currentUserService,
         UserManager<ApplicationUser> userManager)
     {
@@ -32,10 +32,10 @@ public class VoteService : IVoteService
         if (vote.QuestionId != null)
             voteAlreadyExists =
                 await _voteRepository.AnyAsync(x => x.UserId == userId && x.QuestionId == vote.QuestionId);
-        else if(vote.AnswerId != null)
+        else if (vote.AnswerId != null)
             voteAlreadyExists =
                 await _voteRepository.AnyAsync(x => x.UserId == userId && x.AnswerId == vote.AnswerId);
-        
+
         if (voteAlreadyExists)
             return null;
         var voteEntity = _mapper.Map<Vote>(vote);

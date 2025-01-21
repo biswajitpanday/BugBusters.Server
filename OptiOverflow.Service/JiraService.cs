@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Polly;
 using System.Net.Http.Headers;
 
-namespace OptiOverflow.Service;
+namespace BugBusters.Server.Service;
 
 public class JiraService : IJiraService
 {

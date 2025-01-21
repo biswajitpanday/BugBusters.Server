@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OptiOverflow.Service\OptiOverflow.Service.csproj" />
+    <ProjectReference Include="..\OptiOverflow.Service\BugBusters.Server.Service.csproj" />
   </ItemGroup>
 
 </Project>

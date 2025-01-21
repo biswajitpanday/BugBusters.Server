@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace OptiOverflow.Service;
+namespace BugBusters.Server.Service;
 
 public class UserService : IUserService
 {
@@ -17,8 +17,8 @@ public class UserService : IUserService
     private readonly IAnswerRepository _answerRepository;
     private readonly IVoteRepository _voteRepository;
 
-    public UserService(IMapper mapper, 
-        UserManager<ApplicationUser> userManager, 
+    public UserService(IMapper mapper,
+        UserManager<ApplicationUser> userManager,
         IQuestionRepository questionRepository,
         IAnswerRepository answerRepository,
         IVoteRepository voteRepository)
@@ -38,7 +38,7 @@ public class UserService : IUserService
         var answerCount = await _answerRepository.CountAsync(x => x.CreatedById == userId);
         var upVoteCount = await _voteRepository.CountAsync(x => x.UserId == userId && x.IsUpVote);
         var downVoteCount = await _voteRepository.CountAsync(x => x.UserId == userId && !x.IsUpVote);
-        
+
         var response = _mapper.Map<LoggedInProfileResponseDto>(user);
         response.QuestionAsked = questionCount;
         response.Answered = answerCount;
@@ -63,7 +63,7 @@ public class UserService : IUserService
         var applicationUser = await _userManager.FindByIdAsync(id.ToString());
         if (applicationUser == null)
             return null;
-        
+
         var askedQuestions = await _questionRepository.GetByUserId(applicationUser.Id);
         var userResponseDto = _mapper.Map<UserResponseDto>(applicationUser);
         userResponseDto.Questions = _mapper.Map<List<QuestionResponseDto>>(askedQuestions);
@@ -76,23 +76,23 @@ public class UserService : IUserService
                 userResponseDto.Questions.First(x => x.Id == askedQuestion.Id).DownVoteCount = askedQuestion.Votes.Count(v => !v.IsUpVote);
             }
         }
-        
 
-        
+
+
         return userResponseDto;
     }
 
     public async Task<ProfileResponseDto?> UpdateProfile(ProfileUpdateDto profileResponseDto, Guid userId)
     {
         var existingProfile = await _userManager.FindByIdAsync(userId.ToString());
-        if(existingProfile == null)
+        if (existingProfile == null)
             return null;
 
         existingProfile.FirstName = profileResponseDto.FirstName;
         existingProfile.MiddleName = profileResponseDto.MiddleName;
         existingProfile.LastName = profileResponseDto.LastName;
         existingProfile.DateOfBirth = profileResponseDto.DateOfBirth;
-        existingProfile.Address =  profileResponseDto.Address;
+        existingProfile.Address = profileResponseDto.Address;
         existingProfile.PhoneNumber = profileResponseDto.PhoneNumber;
         existingProfile.LastUpdate = DateTime.UtcNow;
 
