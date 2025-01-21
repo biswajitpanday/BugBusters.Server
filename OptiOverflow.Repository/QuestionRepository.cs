@@ -1,11 +1,11 @@
 ﻿using BugBusters.Server.Core.Dtos;
 using BugBusters.Server.Core.Entities;
 using BugBusters.Server.Core.Interfaces.Repositories;
+using BugBusters.Server.Repository.Base;
+using BugBusters.Server.Repository.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
-using OptiOverflow.Repository.Base;
-using OptiOverflow.Repository.DatabaseContext;
 
-namespace OptiOverflow.Repository;
+namespace BugBusters.Server.Repository;
 
 public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
 {
@@ -27,7 +27,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
 
         questions = questions
             .OrderByDescending(x => x.CreatedAt)
-            .Skip((pagedRequest.Page) * pagedRequest.PageSize)
+            .Skip(pagedRequest.Page * pagedRequest.PageSize)
             .Take(pagedRequest.PageSize)
             .Include(x => x.Votes)
             .Include(x => x.Answers)

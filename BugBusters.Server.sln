@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BugBusters.Server.Api", "Op
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BugBusters.Server.Core", "OptiOverflow.Core\BugBusters.Server.Core.csproj", "{007AC4E9-F0C2-4B53-A254-86BA0DF63A7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.Repository", "OptiOverflow.Repository\OptiOverflow.Repository.csproj", "{C62AFF16-2E4C-4B78-BE6F-D518C47D8050}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BugBusters.Server.Repository", "OptiOverflow.Repository\BugBusters.Server.Repository.csproj", "{C62AFF16-2E4C-4B78-BE6F-D518C47D8050}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptiOverflow.Service", "OptiOverflow.Service\OptiOverflow.Service.csproj", "{C6CBAE49-4671-4812-9A03-5751C7C89420}"
 EndProject

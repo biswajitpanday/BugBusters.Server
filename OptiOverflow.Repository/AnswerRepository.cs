@@ -1,9 +1,9 @@
 ﻿using BugBusters.Server.Core.Entities;
 using BugBusters.Server.Core.Interfaces.Repositories;
-using OptiOverflow.Repository.Base;
-using OptiOverflow.Repository.DatabaseContext;
+using BugBusters.Server.Repository.Base;
+using BugBusters.Server.Repository.DatabaseContext;
 
-namespace OptiOverflow.Repository;
+namespace BugBusters.Server.Repository;
 
 public class AnswerRepository : BaseRepository<Answer>, IAnswerRepository
 {

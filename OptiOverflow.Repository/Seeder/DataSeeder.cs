@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using BugBusters.Server.Core.Constants;
 using BugBusters.Server.Core.Entities;
+using BugBusters.Server.Repository.DatabaseContext;
 using Microsoft.AspNetCore.Identity;
-using OptiOverflow.Repository.DatabaseContext;
 
-namespace OptiOverflow.Repository.Seeder;
+namespace BugBusters.Server.Repository.Seeder;
 
 public class DataSeeder
 {

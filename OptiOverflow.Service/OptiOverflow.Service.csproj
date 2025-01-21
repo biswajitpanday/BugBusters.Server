@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OptiOverflow.Repository\OptiOverflow.Repository.csproj" />
+    <ProjectReference Include="..\OptiOverflow.Repository\BugBusters.Server.Repository.csproj" />
   </ItemGroup>
 
 </Project>
