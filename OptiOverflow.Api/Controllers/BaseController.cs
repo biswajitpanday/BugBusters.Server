@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OptiOverflow.Api.Controllers;
+namespace BugBusters.Server.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
