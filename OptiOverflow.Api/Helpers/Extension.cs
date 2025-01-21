@@ -212,6 +212,7 @@ public static class Extension
         builder.Services.AddTransient<IQuestionService, QuestionService>();
         builder.Services.AddTransient<IAnswerService, AnswerService>();
         builder.Services.AddTransient<IVoteService, VoteService>();
+        builder.Services.AddTransient<IJiraService, JiraService>();
     }
 
     private static void ConfigureAppRepositories(this WebApplicationBuilder builder)
