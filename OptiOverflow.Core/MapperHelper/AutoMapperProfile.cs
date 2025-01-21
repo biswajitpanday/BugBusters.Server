@@ -9,7 +9,7 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(x => x.FullName!.StartsWith(nameof(OptiOverflow))).ToArray();
+            .Where(x => x.FullName!.StartsWith(nameof(BugBusters.Server))).ToArray();
         ApplyMappingsFromAssembly(assemblies);
     }
 

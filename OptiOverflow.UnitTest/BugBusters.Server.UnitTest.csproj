@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OptiOverflow.Api\BugBusters.Server.Api.csproj" />
     <ProjectReference Include="..\OptiOverflow.Api\OptiOverflow.Api.csproj" />
   </ItemGroup>
 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace OptiOverflow.Repository.Migrations
+namespace BugBusters.Server.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230530225459_RelationshipImplement")]
@@ -156,7 +156,7 @@ namespace OptiOverflow.Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("OptiOverflow.Core.Entities.Answer", b =>
+            modelBuilder.Entity("BugBusters.Server.Core.Entities.Answer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -191,7 +191,7 @@ namespace OptiOverflow.Repository.Migrations
                     b.ToTable("Answer");
                 });
 
-            modelBuilder.Entity("OptiOverflow.Core.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("BugBusters.Server.Core.Entities.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -266,7 +266,7 @@ namespace OptiOverflow.Repository.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("OptiOverflow.Core.Entities.Question", b =>
+            modelBuilder.Entity("BugBusters.Server.Core.Entities.Question", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,7 +300,7 @@ namespace OptiOverflow.Repository.Migrations
                     b.ToTable("Question");
                 });
 
-            modelBuilder.Entity("OptiOverflow.Core.Entities.UserProfile", b =>
+            modelBuilder.Entity("BugBusters.Server.Core.Entities.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -341,7 +341,7 @@ namespace OptiOverflow.Repository.Migrations
                     b.ToTable("UserProfile");
                 });
 
-            modelBuilder.Entity("OptiOverflow.Core.Entities.Vote", b =>
+            modelBuilder.Entity("BugBusters.Server.Core.Entities.Vote", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -386,7 +386,7 @@ namespace OptiOverflow.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("OptiOverflow.Core.Entities.ApplicationUser", null)
+                    b.HasOne("BugBusters.Server.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -395,7 +395,7 @@ namespace OptiOverflow.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("OptiOverflow.Core.Entities.ApplicationUser", null)
+                    b.HasOne("BugBusters.Server.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -410,7 +410,7 @@ namespace OptiOverflow.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OptiOverflow.Core.Entities.ApplicationUser", null)
+                    b.HasOne("BugBusters.Server.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -419,16 +419,16 @@ namespace OptiOverflow.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("OptiOverflow.Core.Entities.ApplicationUser", null)
+                    b.HasOne("BugBusters.Server.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OptiOverflow.Core.Entities.Answer", b =>
+            modelBuilder.Entity("BugBusters.Server.Core.Entities.Answer", b =>
                 {
-                    b.HasOne("OptiOverflow.Core.Entities.Question", "Question")
+                    b.HasOne("BugBusters.Server.Core.Entities.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -437,14 +437,14 @@ namespace OptiOverflow.Repository.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("OptiOverflow.Core.Entities.Vote", b =>
+            modelBuilder.Entity("BugBusters.Server.Core.Entities.Vote", b =>
                 {
-                    b.HasOne("OptiOverflow.Core.Entities.Question", null)
+                    b.HasOne("BugBusters.Server.Core.Entities.Question", null)
                         .WithMany("Votes")
                         .HasForeignKey("QuestionId");
                 });
 
-            modelBuilder.Entity("OptiOverflow.Core.Entities.Question", b =>
+            modelBuilder.Entity("BugBusters.Server.Core.Entities.Question", b =>
                 {
                     b.Navigation("Answers");
 

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using BugBusters.Server.Api.Controllers;
 using BugBusters.Server.Core.Dtos;
 using BugBusters.Server.Core.Entities;
 using BugBusters.Server.Core.Interfaces.Common;
@@ -7,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Moq;
 using Newtonsoft.Json;
-using OptiOverflow.Api.Controllers;
-using OptiOverflow.Core.Entities;
 
 namespace BugBusters.Server.UnitTest;
 

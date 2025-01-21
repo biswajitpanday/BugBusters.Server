@@ -2,6 +2,8 @@
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
+using BugBusters.Server.Api.Controllers;
+using BugBusters.Server.Core.Dtos;
 using BugBusters.Server.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
-using OptiOverflow.Api.Controllers;
-using OptiOverflow.Core.Dtos;
 
 namespace BugBusters.Server.UnitTest;
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace OptiOverflow.Repository.Migrations
+namespace BugBusters.Server.Repository.Migrations
 {
     /// <inheritdoc />
     public partial class AddNavigationPropertyToAnswer : Migration

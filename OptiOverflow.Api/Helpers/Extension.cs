@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using OptiOverflow.Api.Helpers;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
@@ -58,7 +57,7 @@ public static class Extension
                     rollOnFileSizeLimit: true,
                     shared: true
                 )
-                .Enrich.WithProperty("ApplicationName", "OptiOverflow")
+                .Enrich.WithProperty("ApplicationName", "BugBusters.Server")
                 .CreateLogger();
             builder.Host.UseSerilog();
             Log.Logger.Information("Serilog Configured Successfully.");
@@ -75,7 +74,7 @@ public static class Extension
         {
             option.SwaggerDoc("v1",
                 new OpenApiInfo
-                { Title = "OptiOverflow", Version = "v1", Description = "OptiOverflow API" });
+                { Title = "BugBusters.Server", Version = "v1", Description = "BugBusters.Server API" });
             option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -199,7 +198,7 @@ public static class Extension
     {
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain
             .GetAssemblies()
-            .Where(x => x.FullName!.StartsWith(nameof(OptiOverflow))));
+            .Where(x => x.FullName!.StartsWith(nameof(BugBusters.Server))));
     }
 
     #endregion

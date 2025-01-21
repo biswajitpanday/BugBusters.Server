@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using OptiOverflow.Core.Dtos;
+using BugBusters.Server.Core.Dtos;
 
 namespace BugBusters.Server.IntegrationTest
 {

@@ -1,8 +1,8 @@
 using Serilog;
 using System.Text.Json.Serialization;
-using OptiOverflow.Core.Converters;
 using BugBusters.Server.Api.Helpers;
 using BugBusters.Server.Api.Middleware;
+using BugBusters.Server.Core.Converters;
 using BugBusters.Server.Core.Settings;
 
 var builder = WebApplication.CreateBuilder(args);

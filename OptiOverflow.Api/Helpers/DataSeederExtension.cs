@@ -1,8 +1,8 @@
 ﻿using BugBusters.Server.Core.Entities;
 using BugBusters.Server.Repository.DatabaseContext;
+using BugBusters.Server.Repository.Seeder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using OptiOverflow.Repository.Seeder;
 
 namespace BugBusters.Server.Api.Helpers;
 

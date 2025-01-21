@@ -27,18 +27,18 @@ public class DataSeeder
     {
         var adminUser = new ApplicationUser
         {
-            Email = "optiAdmin@optioverflow.com",
-            UserName = "optiAdmin",
+            Email = "bbAdmin@bb.com",
+            UserName = "bbAdmin",
             PhoneNumber = "+880xxxxxxxxxx",
             IsDeleted = false,
             CreatedAt = DateTime.UtcNow,
             LastUpdate = DateTime.UtcNow,
             EmailConfirmed = true,
-            NormalizedEmail = "OPTIADMIN@OPTIOVERFLOW.COM",
-            NormalizedUserName = "OPTIADMIN",
+            NormalizedEmail = "BBADMIN@BB.COM",
+            NormalizedUserName = "BBADMIN",
             PhoneNumberConfirmed = true,
-            FirstName = "Opti",
-            LastName = "Admin"
+            FirstName = "Bug",
+            LastName = "Busters Admin"
         };
         var dbUser = await userManager.FindByEmailAsync(adminUser.Email);
         if (dbUser == null)
