@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OptiOverflow.Core.Interfaces.Services;
 
-namespace OptiOverflow.Api.Controllers;
+namespace BugBusters.Server.Api.Controllers;
 
 //[Authorize]
 public class JiraController : BaseController

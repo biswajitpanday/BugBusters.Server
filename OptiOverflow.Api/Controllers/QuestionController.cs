@@ -4,10 +4,10 @@ using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
 
-namespace OptiOverflow.Api.Controllers;
+namespace BugBusters.Server.Api.Controllers;
 
 [Authorize]
-public class QuestionController: BaseController
+public class QuestionController : BaseController
 {
     private readonly IQuestionService _questionService;
     private readonly ICurrentUserService _currentUserService;

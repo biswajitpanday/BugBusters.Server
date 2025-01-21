@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 
-namespace OptiOverflow.Api.Middleware;
+namespace BugBusters.Server.Api.Middleware;
 
 public class ExceptionHandlingMiddleware
 {
@@ -34,15 +34,15 @@ public class ExceptionHandlingMiddleware
         switch (exception)
         {
             case ApplicationException ex:
-            {
-                if (ex.Message.ToLower().Contains("invalid token"))
                 {
-                    response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    if (ex.Message.ToLower().Contains("invalid token"))
+                    {
+                        response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        break;
+                    }
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;
                 }
-                response.StatusCode = (int)HttpStatusCode.BadRequest;
-                break;
-            }
             case KeyNotFoundException ex:
                 response.StatusCode = (int)HttpStatusCode.NotFound;
                 break;

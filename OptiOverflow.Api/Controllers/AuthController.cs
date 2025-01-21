@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Entities;
 
-namespace OptiOverflow.Api.Controllers;
+namespace BugBusters.Server.Api.Controllers;
 
 [AllowAnonymous]
 public class AuthController : BaseController
@@ -152,7 +152,7 @@ public class AuthController : BaseController
         var token = new JwtSecurityToken(
             _configuration["JWT:ValidIssuer"],
             _configuration["JWT:ValidAudience"],
-            expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble((_configuration["JWT:ExpireInMinutes"]))),
+            expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["JWT:ExpireInMinutes"])),
             claims: authClaims,
             signingCredentials: cred
         );

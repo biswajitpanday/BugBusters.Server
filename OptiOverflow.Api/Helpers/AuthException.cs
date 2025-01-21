@@ -1,4 +1,4 @@
-﻿namespace OptiOverflow.Api.Helpers;
+﻿namespace BugBusters.Server.Api.Helpers;
 
 public class AuthException : Exception
 {

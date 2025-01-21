@@ -7,7 +7,7 @@ using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
 
-namespace OptiOverflow.Api.Controllers;
+namespace BugBusters.Server.Api.Controllers;
 
 [Authorize]
 public class UserController : BaseController
@@ -17,7 +17,7 @@ public class UserController : BaseController
     private readonly IUserService _userService;
     private readonly ICurrentUserService _currentUserService;
 
-    public UserController(ILogger<UserController> logger, 
+    public UserController(ILogger<UserController> logger,
         UserManager<ApplicationUser> userManager,
         IUserService userService,
         ICurrentUserService currentUserService)

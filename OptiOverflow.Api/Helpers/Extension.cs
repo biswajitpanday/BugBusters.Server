@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OptiOverflow.Api.Helpers;
 using OptiOverflow.Core.Constants;
 using OptiOverflow.Core.Entities;
 using OptiOverflow.Core.Interfaces.Common;
@@ -17,7 +18,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
 
-namespace OptiOverflow.Api.Helpers;
+namespace BugBusters.Server.Api.Helpers;
 
 public static class Extension
 {

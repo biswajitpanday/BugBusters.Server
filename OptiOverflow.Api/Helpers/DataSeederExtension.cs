@@ -4,7 +4,7 @@ using OptiOverflow.Core.Entities;
 using OptiOverflow.Repository.DatabaseContext;
 using OptiOverflow.Repository.Seeder;
 
-namespace OptiOverflow.Api.Helpers;
+namespace BugBusters.Server.Api.Helpers;
 
 public static class DataSeederExtension
 {

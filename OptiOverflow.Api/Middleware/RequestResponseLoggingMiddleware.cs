@@ -1,6 +1,6 @@
 ﻿using Microsoft.IO;
 
-namespace OptiOverflow.Api.Middleware;
+namespace BugBusters.Server.Api.Middleware;
 
 public static class RequestResponseLoggingMiddlewareExtensions
 {

@@ -1,9 +1,9 @@
 using Serilog;
 using System.Text.Json.Serialization;
-using OptiOverflow.Api.Helpers;
-using OptiOverflow.Api.Middleware;
 using OptiOverflow.Core.Converters;
 using OptiOverflow.Core.Settings;
+using BugBusters.Server.Api.Helpers;
+using BugBusters.Server.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

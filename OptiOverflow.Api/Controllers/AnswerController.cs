@@ -3,7 +3,7 @@ using OptiOverflow.Core.Dtos;
 using OptiOverflow.Core.Interfaces.Common;
 using OptiOverflow.Core.Interfaces.Services;
 
-namespace OptiOverflow.Api.Controllers;
+namespace BugBusters.Server.Api.Controllers;
 
 public class AnswerController : BaseController
 {
@@ -12,7 +12,7 @@ public class AnswerController : BaseController
     private readonly ICurrentUserService _currentUserService;
 
     public AnswerController(ILogger<AnswerController> logger,
-        IAnswerService answerService, 
+        IAnswerService answerService,
         ICurrentUserService currentUserService)
     {
         _logger = logger;
@@ -25,7 +25,7 @@ public class AnswerController : BaseController
     {
         var userId = _currentUserService.UserId;
         var response = await _answerService.Accept(id, userId);
-        if(response == null) 
+        if (response == null)
             return NotFound();
         return Ok(response);
     }
