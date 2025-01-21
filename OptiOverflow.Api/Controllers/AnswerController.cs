@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OptiOverflow.Core.Dtos;
-using OptiOverflow.Core.Interfaces.Common;
-using OptiOverflow.Core.Interfaces.Services;
+﻿using BugBusters.Server.Core.Dtos;
+using BugBusters.Server.Core.Interfaces.Common;
+using BugBusters.Server.Core.Interfaces.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BugBusters.Server.Api.Controllers;
 

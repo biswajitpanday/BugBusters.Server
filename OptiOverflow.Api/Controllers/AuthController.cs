@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using OptiOverflow.Core.Dtos;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using OptiOverflow.Core.Constants;
-using OptiOverflow.Core.Entities;
+using BugBusters.Server.Core.Constants;
+using BugBusters.Server.Core.Dtos;
+using BugBusters.Server.Core.Entities;
 
 namespace BugBusters.Server.Api.Controllers;
 

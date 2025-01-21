@@ -1,13 +1,13 @@
-﻿using OptiOverflow.Core.Entities;
-using OptiOverflow.Core.Interfaces.Common;
+﻿using BugBusters.Server.Core.Entities;
+using BugBusters.Server.Core.Interfaces.Common;
 
-namespace OptiOverflow.Core.Dtos;
+namespace BugBusters.Server.Core.Dtos;
 
 public class ProfileResponseDto : IMapFrom<ApplicationUser>
 {
     public string? FirstName { get; set; }
     public string? MiddleName { get; set; }
-    public string? LastName { get; set;}
+    public string? LastName { get; set; }
     public string? FullName => GetFullName();
     public string Email { get; set; } = null!;
     public string? PhoneNumber { get; set; }

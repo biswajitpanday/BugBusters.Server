@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using OptiOverflow.Core.Entities;
-using OptiOverflow.Core.Interfaces.Common;
+using BugBusters.Server.Core.Entities;
+using BugBusters.Server.Core.Interfaces.Common;
 
-namespace OptiOverflow.Core.Dtos;
+namespace BugBusters.Server.Core.Dtos;
 
-public class RegistrationDto: IMapFrom<ApplicationUser>
+public class RegistrationDto : IMapFrom<ApplicationUser>
 {
     [Required(ErrorMessage = "UserName is required")]
     public string UserName { get; set; } = null!;

@@ -1,6 +1,6 @@
-﻿namespace OptiOverflow.Core.Entities;
+﻿namespace BugBusters.Server.Core.Entities;
 
-public class Vote: BaseEntity
+public class Vote : BaseEntity
 {
     public bool IsUpVote { get; set; }
 

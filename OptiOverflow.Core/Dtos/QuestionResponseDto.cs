@@ -1,8 +1,8 @@
-﻿using OptiOverflow.Core.Entities;
-using OptiOverflow.Core.Interfaces.Common;
+﻿using BugBusters.Server.Core.Entities;
+using BugBusters.Server.Core.Interfaces.Common;
 using System.Text.Json.Serialization;
 
-namespace OptiOverflow.Core.Dtos;
+namespace BugBusters.Server.Core.Dtos;
 
 public class QuestionResponseDto : IMapFrom<Question>
 {

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BugBusters.Server.Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OptiOverflow.Core.Interfaces.Services;
 
 namespace BugBusters.Server.Api.Controllers;
 

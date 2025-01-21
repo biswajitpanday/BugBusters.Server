@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace OptiOverflow.Core.Entities;
+namespace BugBusters.Server.Core.Entities;
 
-public class ApplicationUser: IdentityUser<Guid>
+public class ApplicationUser : IdentityUser<Guid>
 {
     public string? FirstName { get; set; }
     public string? MiddleName { get; set; }

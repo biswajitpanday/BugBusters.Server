@@ -1,4 +1,4 @@
-﻿namespace OptiOverflow.Core.Constants;
+﻿namespace BugBusters.Server.Core.Constants;
 
 public class PolicyConstants
 {

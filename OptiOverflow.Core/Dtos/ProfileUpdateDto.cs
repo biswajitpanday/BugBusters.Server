@@ -1,9 +1,9 @@
-﻿using OptiOverflow.Core.Entities;
-using OptiOverflow.Core.Interfaces.Common;
+﻿using BugBusters.Server.Core.Entities;
+using BugBusters.Server.Core.Interfaces.Common;
 
-namespace OptiOverflow.Core.Dtos;
+namespace BugBusters.Server.Core.Dtos;
 
-public class ProfileUpdateDto: IMapFrom<ApplicationUser>
+public class ProfileUpdateDto : IMapFrom<ApplicationUser>
 {
     public string? FirstName { get; set; }
     public string? MiddleName { get; set; }

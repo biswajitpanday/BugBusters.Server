@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace OptiOverflow.Core.Interfaces.Common;
+namespace BugBusters.Server.Core.Interfaces.Common;
 
 public interface IMapFrom<T>
 {

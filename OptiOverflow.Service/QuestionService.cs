@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using BugBusters.Server.Core.Dtos;
+using BugBusters.Server.Core.Entities;
+using BugBusters.Server.Core.Interfaces.Repositories;
+using BugBusters.Server.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
-using OptiOverflow.Core.Dtos;
-using OptiOverflow.Core.Entities;
-using OptiOverflow.Core.Interfaces.Repositories;
-using OptiOverflow.Core.Interfaces.Services;
 
 namespace OptiOverflow.Service;
 

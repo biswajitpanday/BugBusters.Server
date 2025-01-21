@@ -1,4 +1,4 @@
-﻿namespace OptiOverflow.Core.Dtos;
+﻿namespace BugBusters.Server.Core.Dtos;
 
 public class PagedRequest
 {

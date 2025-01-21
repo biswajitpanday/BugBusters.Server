@@ -1,4 +1,4 @@
-﻿namespace OptiOverflow.Core.Helpers;
+﻿namespace BugBusters.Server.Core.Helpers;
 
 public class Utility
 {

@@ -1,6 +1,6 @@
-﻿using OptiOverflow.Core.Dtos;
+﻿using BugBusters.Server.Core.Dtos;
 
-namespace OptiOverflow.Core.Interfaces.Services;
+namespace BugBusters.Server.Core.Interfaces.Services;
 
 public interface IAnswerService
 {

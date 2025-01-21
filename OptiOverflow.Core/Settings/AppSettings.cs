@@ -1,4 +1,4 @@
-﻿namespace OptiOverflow.Core.Settings;
+﻿namespace BugBusters.Server.Core.Settings;
 
 public class AppSettings
 {

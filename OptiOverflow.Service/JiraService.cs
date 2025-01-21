@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using OptiOverflow.Core.Dtos;
-using OptiOverflow.Core.Interfaces.Services;
+﻿using BugBusters.Server.Core.Dtos;
+using BugBusters.Server.Core.Interfaces.Services;
+using Newtonsoft.Json;
 using Polly;
 using System.Net.Http.Headers;
 

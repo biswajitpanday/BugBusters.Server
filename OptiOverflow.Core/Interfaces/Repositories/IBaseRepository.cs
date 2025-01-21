@@ -1,10 +1,10 @@
 ﻿using System.Linq.Expressions;
+using BugBusters.Server.Core.Entities;
 using DotNetCore.Repositories;
-using OptiOverflow.Core.Entities;
 
-namespace OptiOverflow.Core.Interfaces.Repositories;
+namespace BugBusters.Server.Core.Interfaces.Repositories;
 
-public interface IBaseRepository<T>: IRepository<T> where T : BaseEntity
+public interface IBaseRepository<T> : IRepository<T> where T : BaseEntity
 {
     #region Commands
 
@@ -28,7 +28,7 @@ public interface IBaseRepository<T>: IRepository<T> where T : BaseEntity
     //new Task UpdateRangeAsync(IEnumerable<T> items);
 
     #endregion
-    
+
 
 
     #region Queries

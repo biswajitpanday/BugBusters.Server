@@ -1,6 +1,6 @@
-﻿namespace OptiOverflow.Core.Entities;
+﻿namespace BugBusters.Server.Core.Entities;
 
-public class Question: BaseEntity//, IStringSearchable
+public class Question : BaseEntity//, IStringSearchable
 {
     public string Title { get; set; } = null!;
     public string Body { get; set; } = null!;

@@ -1,8 +1,7 @@
-﻿
-using OptiOverflow.Core.Entities;
-using OptiOverflow.Core.Interfaces.Common;
+﻿using BugBusters.Server.Core.Entities;
+using BugBusters.Server.Core.Interfaces.Common;
 
-namespace OptiOverflow.Core.Dtos;
+namespace BugBusters.Server.Core.Dtos;
 
 public class VoteCreateDto : IMapFrom<Vote>
 {

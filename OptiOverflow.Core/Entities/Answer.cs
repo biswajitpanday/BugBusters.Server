@@ -1,4 +1,4 @@
-﻿namespace OptiOverflow.Core.Entities;
+﻿namespace BugBusters.Server.Core.Entities;
 
 public class Answer : BaseEntity
 {

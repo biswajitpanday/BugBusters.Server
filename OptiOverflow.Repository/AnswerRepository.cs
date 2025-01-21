@@ -1,5 +1,5 @@
-﻿using OptiOverflow.Core.Entities;
-using OptiOverflow.Core.Interfaces.Repositories;
+﻿using BugBusters.Server.Core.Entities;
+using BugBusters.Server.Core.Interfaces.Repositories;
 using OptiOverflow.Repository.Base;
 using OptiOverflow.Repository.DatabaseContext;
 

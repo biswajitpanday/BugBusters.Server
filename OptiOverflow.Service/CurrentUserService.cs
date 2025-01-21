@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using OptiOverflow.Core.Interfaces.Common;
+using BugBusters.Server.Core.Interfaces.Common;
 
 namespace OptiOverflow.Service;
 

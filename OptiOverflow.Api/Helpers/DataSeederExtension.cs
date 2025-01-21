@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BugBusters.Server.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using OptiOverflow.Core.Entities;
 using OptiOverflow.Repository.DatabaseContext;
 using OptiOverflow.Repository.Seeder;
 

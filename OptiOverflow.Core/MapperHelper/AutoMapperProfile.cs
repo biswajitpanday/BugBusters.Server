@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using System.Reflection;
-using OptiOverflow.Core.Interfaces.Common;
+using BugBusters.Server.Core.Interfaces.Common;
 
-namespace OptiOverflow.Core.MapperHelper;
+namespace BugBusters.Server.Core.MapperHelper;
 
 public class AutoMapperProfile : Profile
 {

@@ -1,7 +1,7 @@
-﻿using OptiOverflow.Core.Dtos;
-using OptiOverflow.Core.Entities;
+﻿using BugBusters.Server.Core.Dtos;
+using BugBusters.Server.Core.Entities;
 
-namespace OptiOverflow.Core.Interfaces.Repositories;
+namespace BugBusters.Server.Core.Interfaces.Repositories;
 
 public interface IQuestionRepository : IBaseRepository<Question>
 {

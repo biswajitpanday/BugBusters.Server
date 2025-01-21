@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
+using BugBusters.Server.Core.Constants;
+using BugBusters.Server.Core.Entities;
 using Microsoft.AspNetCore.Identity;
-using OptiOverflow.Core.Constants;
-using OptiOverflow.Core.Entities;
 using OptiOverflow.Repository.DatabaseContext;
 
 namespace OptiOverflow.Repository.Seeder;
