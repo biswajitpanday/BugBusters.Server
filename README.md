@@ -29,7 +29,6 @@
 
 - .NET 7 SDK
 - SQL Server instance
-- Node.js (for front-end setup if applicable)
 
 ### Installation
 
