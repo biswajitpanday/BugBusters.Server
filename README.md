@@ -111,7 +111,7 @@ BugBusters.Server
 
 The API is documented using Swagger, which is accessible once the server is running. Below is a screenshot of the Swagger UI:
 
-![Swagger Screenshot](path-to-your-image/swagger-screenshot.png)
+![Swagger Screenshot](swagger-screenshot.png)
 
 ## Contributing
 
