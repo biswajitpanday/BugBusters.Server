@@ -58,6 +58,55 @@ To run the unit tests, use:
 dotnet test
 ```
 
+## Solution Structure
+
+```plaintext
+BugBusters.Server
+├── External Sources
+│   └── Tests
+│       ├── BugBusters.Server.IntegrationTest
+│       └── BugBusters.Server.UnitTest
+├── BugBusters.Server.Api
+│   ├── Connected Services
+│   ├── Dependencies
+│   ├── Properties
+│   ├── Controllers
+│   ├── Helpers
+│   ├── Logs
+│   ├── Middleware
+│   ├── appsettings.json
+│   └── Program.cs
+├── BugBusters.Server.Core
+│   ├── Dependencies
+│   ├── Constants
+│   ├── Converters
+│   ├── Dtos
+│   ├── Entities
+│   ├── Enums
+│   ├── Helpers
+│   ├── Interfaces
+│   ├── MapperHelper
+│   └── Settings
+│       └── AppSettings.cs
+├── BugBusters.Server.Repository
+│   ├── Dependencies
+│   ├── Base
+│   ├── DatabaseContext
+│   ├── Migrations
+│   ├── Seeder
+│   ├── AnswerRepository.cs
+│   ├── QuestionRepository.cs
+│   └── VoteRepository.cs
+├── BugBusters.Server.Service
+│   ├── Dependencies
+│   ├── AnswerService.cs
+│   ├── CurrentUserService.cs
+│   ├── JiraService.cs
+│   ├── QuestionService.cs
+│   ├── UserService.cs
+│   └── VoteService.cs
+```
+
 ## API Documentation (Swagger)
 
 The API is documented using Swagger, which is accessible once the server is running. Below is a screenshot of the Swagger UI:
