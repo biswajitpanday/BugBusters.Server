@@ -1,5 +1,5 @@
 
-# BugBusters.Server
+# BugBusters Server Application (API)
 
 **BugBusters** is a company-specific developer panel designed for sharing issues and providing solutions. This application serves as a private version of StackOverflow, where employees within a company can ask questions, provide answers, and engage in community-driven problem-solving, without the concerns of public exposure.
 
