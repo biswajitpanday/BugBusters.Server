@@ -112,6 +112,9 @@ The API is documented using Swagger, which is accessible once the server is runn
 
 ![Swagger Screenshot](swagger-screenshot.png)
 
+## Client Repository
+The client-side code for this application can be found [here](https://github.com/biswajitpanday/BugBusters.Client).
+
 ## Contributing
 
 1. Fork the repository.
