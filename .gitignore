@@ -478,3 +478,4 @@ $RECYCLE.BIN/
 
 #Project Specific Files
 /OptiOverflow.Api/appsettings.Development.json
+/BugBusters.Server.Api/appsettings.development.json
