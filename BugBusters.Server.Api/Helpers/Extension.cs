@@ -198,7 +198,7 @@ public static class Extension
     {
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain
             .GetAssemblies()
-            .Where(x => x.FullName!.StartsWith(nameof(BugBusters.Server))));
+            .Where(x => x.FullName!.StartsWith(nameof(BugBusters))));
     }
 
     #endregion
