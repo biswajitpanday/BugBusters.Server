@@ -12,7 +12,7 @@
 
 ## Technology Stack
 
-- **Backend**: ASP.NET Core 7
+- **Backend**: .NET 7
 - **Database**: SQL Server (MSSQL)
 - **ORM**: Entity Framework Core (Code First, Migrations)
 - **Logging**: Serilog
